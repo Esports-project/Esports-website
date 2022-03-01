@@ -35,6 +35,7 @@
         </head>
     </html>
 </style>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel='stylesheet' id='wp-color-picker-css' href="{{ asset('front-office/css/color-picker.minc8d8.css?ver=5.8.3') }}" media='all' />
 <link rel='stylesheet' id='wp-block-library-css' href="{{ asset('front-office/css/style.minc8d8.css?ver=5.8.3') }}" media='all' />
@@ -226,7 +227,7 @@
                                 Dashboard
                             </a>
                             <div class="dropdown-divider white"></div>
-                            <a class="dropdown-item white" href="logout">
+                            <a class="dropdown-item white" href="{{ path('logout') }}">
                                 Logout
                             </a>
                         </div>

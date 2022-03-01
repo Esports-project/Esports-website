@@ -60,10 +60,7 @@ class User implements \Serializable, UserInterface
      */
     private $commandes;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Reclamation::class, inversedBy="user")
-     */
-    private $reclamation;
+  
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")
@@ -208,18 +205,6 @@ class User implements \Serializable, UserInterface
                 $commande->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getReclamation(): ?Reclamation
-    {
-        return $this->reclamation;
-    }
-
-    public function setReclamation(?Reclamation $reclamation): self
-    {
-        $this->reclamation = $reclamation;
 
         return $this;
     }

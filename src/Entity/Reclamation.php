@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReclamationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,9 +18,20 @@ class Reclamation
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $sujet;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="text")
@@ -39,19 +48,21 @@ class Reclamation
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="reclamation")
-     */
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getSujet(): ?string
@@ -62,6 +73,18 @@ class Reclamation
     public function setSujet(string $sujet): self
     {
         $this->sujet = $sujet;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -98,36 +121,6 @@ class Reclamation
     public function setStatus(int $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|user[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setReclamation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getReclamation() === $this) {
-                $user->setReclamation(null);
-            }
-        }
 
         return $this;
     }
