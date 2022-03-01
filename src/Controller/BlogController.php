@@ -41,6 +41,7 @@ class BlogController extends AbstractController
         $blog->setLikes(0);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($blog);
             $entityManager->flush();
 

@@ -6,6 +6,7 @@ use App\Repository\BlogRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BlogRepository::class)
@@ -86,6 +87,10 @@ class Blog
     public function getImage(): ?string
     {
         return $this->image;
+    }
+    public function __toString()
+    {
+        return (string) $this->getImage();
     }
 
     public function setImage(?string $image): self

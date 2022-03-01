@@ -11,17 +11,17 @@
                                                         
                         </th>
                         <th>
+                            Image
+                                                                                        
+                                                        
+                        </th>
+                        <th>
                             Title
                                                                                         
                                                         
                         </th>
                         <th>
                             Content
-                                                                                        
-                                                        
-                        </th>
-                        <th>
-                            Image
                                                                                         
                                                         
                         </th>
@@ -49,13 +49,13 @@
                                 {{ blog.id }}
                             </td>
                             <td>
+                                <img alt="" src="{{ asset('front-office/img/') }}{{ blog.image }}" style="height: 30px;" />
+                            </td>
+                            <td>
                                 {{ blog.titre }}
                             </td>
                             <td>
                                 {{ blog.contenu }}
-                            </td>
-                            <td>
-                                <img src="{{ blog.image }}">
                             </td>
                             <td>
                                 {{ blog.likes }}

@@ -24,7 +24,7 @@
         {% endblock %}
     </head>
     {% block headerdefine %}
-        <body style="background-image: url({{ asset('front-office/img/bg1.jpg') }}); background-size: cover;">
+        <body style="background-image: url({{ asset('front-office/img/img22.jpg') }}); background-size: cover;">
     {% endblock %}
         <div id="app" class="app">
             {% block navbar %}
@@ -33,7 +33,7 @@
                         <div class="row align-items-center justify-content-between">
                             <div class="logo-block col-auto">
                                 <div class="site-logo">
-                                    <a href="index.html" data-magic-cursor="link">
+                                    <a href="{{ path('home') }}" data-magic-cursor="link">
                                         <img class="light" src="{{ asset('front-office/img/logo-light.png') }}" alt="LevelUp">
                                         <img class="dark" src="{{ asset('front-office/img/logo-dark.png') }}" alt="LevelUp">
                                     </a>
@@ -154,13 +154,13 @@
                 </header>
             {% endblock %}
             <div id="sidebar" class="app-sidebar">
-                <div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
+                <div class="app-sidebar-content" data-scrollbar="true" data-init="true">
                     <div class="menu">
                         <div class="menu-header">
                             Dashboard                    
                         </div>
                         <div class="menu-item">
-                            <a href="{{ path('dashboard') }}" class="menu-link">
+                            <a href="{{ path('dashboard') }}" class="menu-link" style="padding: 0.2rem 3rem">
                                 <span class="menu-icon">
                                     <i class="bi bi-columns-gap"></i>
                                 </span>
@@ -169,8 +169,11 @@
                                 </span>
                             </a>
                         </div>
+                        <div class="menu-header">
+                            Human resources                    
+                        </div>
                         <div class="menu-item">
-                            <a href="{{ path('new_user_index') }}" class="menu-link">
+                            <a href="{{ path('new_user_index') }}" class="menu-link" style="padding: 0.2rem 3rem">
                                 <span class="menu-icon">
                                     <i class="bi bi-people"></i>
                                 </span>
@@ -180,7 +183,7 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a href="{{ path('departement_index') }}" class="menu-link">
+                            <a href="{{ path('departement_index') }}" class="menu-link" style="padding: 0.2rem 3rem">
                                 <span class="menu-icon">
                                     <i class="bi bi-person-workspace"></i>
                                 </span>
@@ -189,16 +192,124 @@
                                 </span>
                             </a>
                         </div>
+                        <div class="menu-header">
+                            Teams management                    
+                        </div>
                         <div class="menu-item">
-                            <a href="{{ path('blog_index') }}" class="menu-link">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
                                 <span class="menu-icon">
-                                    <i class="bi bi-person-workspace"></i>
+                                    <i class="bi bi-shop"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Teams                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-chat-right-dots"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Games                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-header">
+                            Event management                    
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-chat-right-dots"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Events                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-chat-right-dots"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Ranks                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-header">
+                            Blog management                    
+                        </div>
+                        <div class="menu-item">
+                            <a href="{{ path('blog_index') }}" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-chat-right-text"></i>
                                 </span>
                                 <span class="menu-text">
                                     Blogs                                                             
                                 </span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a href="{{ path('commentaire_index') }}" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-chat-right-dots"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Blog comments                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-header">
+                            Store management                    
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-shop"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Products                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-card-list"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Orders                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-header">
+                            Support management                    
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-shop"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Reclamations                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="#" class="menu-link" style="padding: 0.2rem 3rem">
+                                <span class="menu-icon">
+                                    <i class="bi bi-card-list"></i>
+                                </span>
+                                <span class="menu-text">
+                                    Messages                                                             
+                                </span>
+                            </a>
+                        </div>
+                        <a href="#" class="btn d-block btn-outline-theme" style="position: relative; bottom: 0">
+                        <i class="fa fa-arrow-right-from-bracket me-2 ms-n2 opacity-5"></i> Logout
+                        </a>
                     </div>
                 </div>
             </div>
