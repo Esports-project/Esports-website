@@ -30,7 +30,7 @@ class NewUserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('dashboard/users.html.twig', [
             'users' => $userRepository->findAll(),
             'departements' => $departementRepository->findAll(),
             'form' => $form->createView(),
