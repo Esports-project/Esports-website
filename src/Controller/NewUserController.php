@@ -98,7 +98,7 @@ class NewUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edituser", name="edit_user_admin", methods={"GET", "POST"}, requirements={"id":"\d+"})
+     * @Route("/user/{id}/edit", name="edit_user_admin", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -111,7 +111,7 @@ class NewUserController extends AbstractController
             $passwordEncoder->encodePassword($user, $user->getPassword()));
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirect($this->generateUrl('new_user_index', array('id' => $user->getId())));
+            return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('new_user/edituser.html.twig', [
             'user' => $user,
