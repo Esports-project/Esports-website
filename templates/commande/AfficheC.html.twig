@@ -1,0 +1,96 @@
+{% extends "base-back.html.twig" %}
+
+{% block content %}
+    <div id="content" class="app-content">
+
+        <div class="row">
+
+
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <div class="d-flex fw-bold small mb-3">
+                        <span class="flex-grow-1">Check Orders</span>
+                        <a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i class="bi bi-fullscreen"></i></a>
+                    </div>
+
+
+
+                    <div class="ratio ratio-21x9 mb-3">
+                        <div class="form-group mb-3">
+
+                            <div class="input-group mb-4">
+                                <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter orders &nbsp;</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <div role="separator" class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Separated link</a>
+                                </div>
+                                <div class="flex-fill position-relative">
+                                    <div class="input-group">
+                                        <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+                                            <i class="fa fa-search opacity-5"></i>
+                                        </div>
+                                        <input type="text" class="form-control ps-35px" placeholder="Search orders" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th class="pt-0 pb-2">#</th>
+                                        <th class="pt-0 pb-2">Date</th>
+                                        <th class="pt-0 pb-2">Quantite</th>
+                                        <th class="pt-0 pb-2">Prix Total</th>
+                                        <th class="pt-0 pb-2">Liste Produits</th>
+                                        <th class="pt-0 pb-2">Delete</th>
+                                    </tr>
+                                    </thead>
+                                    {% if commande %}
+                                        <tbody>
+                                        {% for cmd in commande %}
+                                            <tr>
+                                                <td class="w-10px align-middle">{{ cmd.id }}</td>
+                                                <td class="align-middle">{{ cmd.date|date('d-m-Y') }}</td>
+                                                <td class="align-middle">{{ cmd.quantite }}</td>
+                                                <td class="align-middle">{{ cmd.prixtotal }}</td>
+                                                <td class="align-middle">{% for ligne in cmd.ligneCommandes %}{{ ligne.produit.nom }} / {% endfor %}</td>
+                                                <td>
+                                                    <a href="/SupprimerCommande/{{ cmd.id }}"  class="btn btn-dark" onclick="return confirm('Etes-vous sûr de supprimer cette commande?');">Delete</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    {% else %}
+                                        <p>Aucun produit</p>
+                                    {% endif %}
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="card-arrow">
+                    <div class="card-arrow-top-left"></div>
+                    <div class="card-arrow-top-right"></div>
+                    <div class="card-arrow-bottom-left"></div>
+                    <div class="card-arrow-bottom-right"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    </div>
+{% endblock %}
