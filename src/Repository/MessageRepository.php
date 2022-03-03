@@ -61,7 +61,7 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
-
+   
     /*
     public function findOneBySomeField($value): ?Message
     {
@@ -73,4 +73,34 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
+
+  
+
+    public function findMessages($value){
+        return $this->createQueryBuilder('m')
+        ->Where('m.receiver = :val')
+        ->orWhere('m.sender = :val')
+        ->setParameter('val', $value)
+        ->orderBy('m.date', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findAllWithoutAdmin(){
+        return $this->createQueryBuilder('m')
+        ->Where('m.sender != :val')
+        ->setParameter('val', 0)
+        ->orderBy('m.date', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function onlyAdminMessages(){
+        return $this->createQueryBuilder('m')
+        ->Where('m.sender = :val')
+        ->setParameter('val', 0)
+        ->orderBy('m.date', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
 }

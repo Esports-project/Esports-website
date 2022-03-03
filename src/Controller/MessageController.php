@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/message")
  */
@@ -21,7 +22,7 @@ class MessageController extends AbstractController
     public function dashboard(MessageRepository $messageRepository): Response
     {
         return $this->render('dashboard/messages.html.twig', [
-            'messages' => $messageRepository->findAll(),
+            'messages' => $messageRepository->findAllWithoutAdmin(),
         ]);
     }
 
@@ -64,23 +65,22 @@ class MessageController extends AbstractController
     /**
      * @Route("/reply/{receiver}", name="app_message_reply", methods={"GET", "POST"})
      */
-    public function reply(Request $request, MessageRepository $messageRepository): Response
+    public function reply(Request $request, int $receiver, MessageRepository $messageRepository): Response
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
         $message->setDate(new \DateTime('now'));
         $message->setSender($this->getUser());
-        $receiver = $message->getReceiver();
         $message->setSeen(0);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $messageRepository->add($message);
             return $this->redirectToRoute('app_message_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->render('message/reply.html.twig', [
-            'messages' => $messageRepository->findAll(),
+            'messages' => $messageRepository->findMessages($receiver),
             'form' => $form->createView(),
         ]);
     }
