@@ -16,6 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class MessageController extends AbstractController
 {
     /**
+     * @Route("/messages", name="app_message_dashboard", methods={"GET"})
+     */
+    public function dashboard(MessageRepository $messageRepository): Response
+    {
+        return $this->render('dashboard/messages.html.twig', [
+            'messages' => $messageRepository->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/", name="app_message_index", methods={"GET"})
      */
     public function index(MessageRepository $messageRepository): Response
@@ -38,7 +48,6 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
         $message->setDate(new \DateTime('now'));
         $message->setSender($this->getUser());
-        $message->setReceiver($this->getUser());
         $message->setSeen(0);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,7 +56,31 @@ class MessageController extends AbstractController
         }
 
         return $this->render('message/new.html.twig', [
-            'message' => $message,
+            'messages' => $message,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/reply/{receiver}", name="app_message_reply", methods={"GET", "POST"})
+     */
+    public function reply(Request $request, MessageRepository $messageRepository): Response
+    {
+        $message = new Message();
+        $form = $this->createForm(MessageType::class, $message);
+        $form->handleRequest($request);
+        $message->setDate(new \DateTime('now'));
+        $message->setSender($this->getUser());
+        $receiver = $message->getReceiver();
+        $message->setSeen(0);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $messageRepository->add($message);
+            return $this->redirectToRoute('app_message_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('message/reply.html.twig', [
+            'messages' => $messageRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }

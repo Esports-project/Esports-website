@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +15,10 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('contenu')
+            ->add('receiver', EntityType::class, [
+                'class' => User::class,
+            
+        ])
         ;
     }
 
