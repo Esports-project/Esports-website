@@ -3,6 +3,25 @@
 {% block title %}New Message{% endblock %}
 
 {% block content %}
+<script>
+{# Only enable button when all textfields are filled  #}
+ function success() {
+	 if(document.getElementById("message_contenu").value==="") {
+            document.getElementById('submit_message').disabled = true;
+        } else {
+            document.getElementById('submit_message').disabled = false;
+        }
+    }
+
+
+{# Prevents ability to double click  #}
+$(function(){
+        document.getElementById("submit_message").onclick = function() {
+          document.getElementById("message_form").submit();
+            this.disabled = true;
+        }
+    });
+</script>
 <br>
 <br>
 <br>
@@ -61,19 +80,17 @@
     </div>
   </div>
   <div class="card-footer bg-none">
-   <form  action="{{ path('app_message_new') }}" method="post">
-                    <label for="message_contenu" class="col-sm-2 col-form-label">
-                        Content                               
-                    </label>
+   <form  action="{{ path('app_message_new') }}" method="post" id="message_form">
+                    
                     <div class="col-sm-10 mb-4 input-append">
-                    <input id="message_contenu" name="message[contenu]" class="form-control">
+                    <input id="message_contenu" name="message[contenu]" class="form-control" onkeyup="success()">
                     </div>
                             <p class="form-row">
                             <input type="hidden" id="message__token" name="message[_token]" value="{{ form._token.vars.value }}"> 
                             </p>
                             </div>
                             <input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="message[receiver]" id="message_receiver" value="{{ 0 }}" />
-                                <button type="submit" class="btn btn-primary add">
+                                <button disabled id="submit_message" type="submit" class="btn btn-primary add">
                                     add
                                 </button>
                 </form>

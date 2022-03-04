@@ -73,4 +73,14 @@ class ReclamationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function checkForSpam($value)
+    {
+     $result = $this->createQueryBuilder('r')
+                    ->andWhere('r.user = :val', 'r.status = 0')
+                    ->setParameter('val', $value)
+                    ->getQuery()
+                    ->getResult();
+     return count($result);
+    }
 }

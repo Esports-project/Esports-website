@@ -39,27 +39,29 @@ class ReclamationController extends AbstractController
     /**
      * @Route("/new", name="reclamation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ReclamationRepository $reclamationRepository): Response
     {
-        $reclamation = new Reclamation();
-        $reclamation->setDate(new \Datetime('now'));
-        $reclamation->setStatus(0);
-        $form = $this->createForm(ReclamationType::class, $reclamation);
 
-        $form->handleRequest($request);
+        if($reclamationRepository->checkForSpam($this->getUser()) >= 3){
+            return $this->render('base-error.html.twig', [ ]);
+        }else{
+            $reclamation = new Reclamation();
+            $reclamation->setDate(new \Datetime('now'));
+            $reclamation->setStatus(0);
+            $form = $this->createForm(ReclamationType::class, $reclamation);
+    
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($reclamation);
+                $entityManager->flush();            
+            }   
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($reclamation);
-            $entityManager->flush();
-            // return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
-            
+            return $this->render('reclamation/new.html.twig', [
+                'reclamation' => $reclamation,
+                'form' => $form->createView(),
+            ]);
         }
-   
-
-        return $this->render('reclamation/new.html.twig', [
-            'reclamation' => $reclamation,
-            'form' => $form->createView(),
-        ]);
+       
     }
 
 

@@ -1,8 +1,9 @@
 {% extends "base-dashboard.html.twig" %}
 {% block content %}
+    
     <div class="card">
         <div class="card-body">
-            <table id="datatableDefault" class="table text-nowrap w-100">
+            <table id="datatableDefault" class="table table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -49,9 +50,10 @@
                 </thead>
                 <tbody>
                     {% for reclamation in reclamations %}
-                        <tr>
+                    {% if reclamation.status == 0 %}
+                         <tr  class="table-danger">
                             <td>
-                                {{ reclamation.id }}
+                                {{ reclamation.id }} 
                             </td>
                             <td>
                                 {{ reclamation.sujet }}
@@ -70,15 +72,44 @@
                             </td>
                             <td>
                                 {{ reclamation.user.username }}
-                            </td>
-                            
+                            </td>                  
                             <td>
                                 <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="bi bi-pencil white"></a>
                                 {{ include('reclamation/_delete_form.html.twig') }}
                             </a>
                             </td>
                         </tr>
-                        
+                    {% else %}
+                         <tr class="table-success">
+                            <td>
+                                {{ reclamation.id }} 
+                            </td>
+                            <td>
+                                {{ reclamation.sujet }}
+                            </td>
+                            <td>
+                                {{ reclamation.email }}
+                            </td>
+                            <td>
+                                {{ reclamation.description }}
+                            </td>
+                            <td>
+                                {{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}
+                            </td>
+                            <td>
+                                {{ reclamation.status }}
+                            </td>
+                            <td>
+                                {{ reclamation.user.username }}
+                            </td>                  
+                            <td>
+                                <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="bi bi-pencil white"></a>
+                                {{ include('reclamation/_delete_form.html.twig') }}
+                            </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                              
                     {% endfor %}
                 </tbody>
             </table>
@@ -87,7 +118,7 @@
             <div class="card-arrow-top-left"></div>
             <div class="card-arrow-top-right"></div>
             <div class="card-arrow-bottom-left"></div>
-            <div class="card-arrow-bottom-right"></div>
+            <div class="card-arrow-bottom-right"></div>           
         </div>
     </div>
 {% endblock %}

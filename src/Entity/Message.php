@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
+ * 
  */
 class Message
 {
@@ -19,6 +20,9 @@ class Message
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull(
+     *  message = "Please write something"
+     * ) 
      */
     private $contenu;
 

@@ -22,7 +22,7 @@ class MessageController extends AbstractController
     public function dashboard(MessageRepository $messageRepository): Response
     {
         return $this->render('dashboard/messages.html.twig', [
-            'messages' => $messageRepository->findAllWithoutAdmin(),
+            'messages' => $messageRepository->findAll(),
         ]);
     }
 
@@ -56,9 +56,9 @@ class MessageController extends AbstractController
             return $this->redirectToRoute('app_message_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('message/new.html.twig', [
-            'messages' => $message,
-            'form' => $form->createView(),
+        return $this->render('message/index.html.twig', [
+            'messages' => $messageRepository->findAll(),
+            'form' => $form->createview(),
         ]);
     }
 
