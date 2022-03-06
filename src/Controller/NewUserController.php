@@ -154,7 +154,7 @@ class NewUserController extends AbstractController
             $passwordEncoder->encodePassword($user, $user->getPassword()));
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('new_user_show', ['id' => $user->getId()]);
         }
         return $this->render('new_user/edit.html.twig', [
             'user' => $user,
