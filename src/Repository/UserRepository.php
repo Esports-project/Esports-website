@@ -57,4 +57,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->execute();
     }
+
+    public function findAdmins($department)
+    {
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.departement != :department')
+            ->setParameter('department', $department)
+            ->getQuery()
+            ->execute();
+    }
 }

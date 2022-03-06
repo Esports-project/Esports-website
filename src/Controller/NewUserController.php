@@ -27,9 +27,21 @@ class NewUserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         return $this->render('dashboard/users.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy(['departement' => NULL]),
             'departements' => $departementRepository->findAll(),
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/dashboard/admins", name="admin_index", methods={"GET", "POST"})
+     */
+    public function admins(UserRepository $userRepository, DepartementRepository $departementRepository): Response
+    {
+        $user = new User();
+        return $this->render('dashboard/admins.html.twig', [
+            'users' => $userRepository->findAdmins($user->getDepartement() == NUll),
+            'departements' => $departementRepository->findAll(),
         ]);
     }
     /**
@@ -110,6 +122,9 @@ class NewUserController extends AbstractController
             $entityManager->persist($user);
             $user->setPassword(
             $passwordEncoder->encodePassword($user, $user->getPassword()));
+            if ($user->getDepartement() != null) {
+                $user->setRoles(['ROLE_ADMIN']);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
@@ -132,6 +147,21 @@ class NewUserController extends AbstractController
         else {
             $user->setBanned(0);
         }
+        $entityManager->flush();
+        return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
+
+    }
+
+    /**
+     * @Route("/user/{id}/remove", name="remove_admin", methods={"GET", "POST"}, requirements={"id":"\d+"})
+     */
+    public function RemoveAdmin(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+
+        $user->setRoles(['ROLE_USER']);
+        $user->setDepartement(NULL);
+
+
         $entityManager->flush();
         return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
 

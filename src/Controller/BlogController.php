@@ -12,10 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/dashboard")
+ * @Route("")
  */
 class BlogController extends AbstractController
 {
+    /**
+     * @Route("/dashboard/blogs", name="blog_index", methods={"GET"})
+     */
+    public function dashboard(BlogRepository $blogRepository): Response
+    {
+        $blog = new Blog();
+        $form = $this->createForm(BlogType::class, $blog);
+        return $this->render('dashboard/blogs.html.twig', [
+            'blogs' => $blogRepository->findAll(),
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * @Route("/blogs", name="blog_index", methods={"GET"})
      */
@@ -23,9 +36,8 @@ class BlogController extends AbstractController
     {
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
-        return $this->render('dashboard/blogs.html.twig', [
+        return $this->render('blog/index.html.twig', [
             'blogs' => $blogRepository->findAll(),
-            'form' => $form->createView(),
         ]);
     }
 

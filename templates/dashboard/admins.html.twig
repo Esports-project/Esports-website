@@ -31,6 +31,11 @@
                                                         
                         </th>
                         <th>
+                            Department
+                            
+                                                        
+                        </th>
+                        <th>
                             Join Date  
                             
                                                         
@@ -66,6 +71,9 @@
                                 {{ user.email }}
                             </td>
                             <td>
+                                {{ user.departement }}
+                            </td>
+                            <td>
                                 {{ user.dateJoin ? user.dateJoin|date('Y-m-d H:i:s') : '' }}
                             </td>
                             <td>
@@ -82,17 +90,17 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('edit_user_admin', {'id': user.id}) }}" class="bi bi-pencil white"></a>
-                                {{ include('new_user/_delete_form.html.twig') }}
-                                </a>
-                                {% if user.banned == 0 %}
-                                <a href ="{{ path('ban_user', {'id': user.id}) }}"class="btn btn-danger" style="color: white;float: right; display: ineline-block">
-                                    Ban User
-                                </a>
+                                {% if app.user.departement.id == 11 %}
+                                    <a href="{{ path('edit_user_admin', {'id': user.id}) }}" class="bi bi-pencil white"></a>
+                                    {{ include('new_user/_delete_form.html.twig') }}
+                                    </a>
+                                    <a href ="{{ path('remove_admin', {'id': user.id}) }}"class="btn btn-danger" style="color: white;float: right; display: ineline-block">
+                                        Demote
+                                    </a>
                                 {% else %}
-                                <a href ="{{ path('ban_user', {'id': user.id}) }}" class="btn btn-success" style="color: white;float: right; display: ineline-block">
-                                    Unban User
-                                </a>
+                                    <a href ="{{ path('remove_admin', {'id': user.id}) }}"class="btn btn-danger disabled" style="color: white;float: right; display: ineline-block">
+                                        Demote
+                                    </a>
                                 {% endif %}
                             </td>
                         </tr>

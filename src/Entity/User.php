@@ -238,12 +238,20 @@ class User implements \Serializable, UserInterface
         return $this;
     }
 
-    public function getRoles() : array
+    public function getRoles()
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+    
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    
+        // allows for chaining
+        return $this;
     }
 
     public function getSalt() {}
