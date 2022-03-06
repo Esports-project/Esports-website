@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -22,6 +23,12 @@ class User implements \Serializable, UserInterface
     private $id;
 
     /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
@@ -55,7 +62,10 @@ class User implements \Serializable, UserInterface
      */
     private $equipe;
 
-  
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")
@@ -63,7 +73,7 @@ class User implements \Serializable, UserInterface
     private $commentaires;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable = true)
      */
     private $password;
 
@@ -71,6 +81,11 @@ class User implements \Serializable, UserInterface
      * @ORM\Column(type="string", length=255, unique = true)
      */
     private $username;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $banned = false;
 
 
 
@@ -223,11 +238,12 @@ class User implements \Serializable, UserInterface
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles() : array
     {
-        return [
-            'ROLE_USER'
-        ];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function getSalt() {}
@@ -252,6 +268,18 @@ class User implements \Serializable, UserInterface
             $this->email,
             $this->password
         ) = unserialize($string, ['allowed_classes' =>false]);
+    }
+
+    public function getBanned(): ?bool
+    {
+        return $this->banned;
+    }
+
+    public function setBanned(bool $banned): self
+    {
+        $this->banned = $banned;
+
+        return $this;
     }
 
     

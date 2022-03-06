@@ -3,32 +3,35 @@ security:
         App\Entity\User:
             algorithm: auto
     providers:
-        my_provider:
-            entity: 
+        users:
+            entity:
                 class: App\Entity\User
-                property: username
                 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            
             anonymous: lazy
-
             form_login:
                 login_path: login
                 check_path: login
                 default_target_path: home
-                provider: my_provider
             guard:
+                entry_point: form_login
                 authenticators:
-                    - App\Security\LoginFormAuthenticator
+                    - App\Security\GoogleAuthenticator 
+                   
             logout:
                 path: logout
                 # where to redirect after logout
-                target: home
+                target: login
+            user_checker: App\Security\UserChecker
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         #- { path: ^/dashboard, roles: ROLE_ADMIN }
+         - { path: ^/dashboard/*, roles: ROLE_ADMIN }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }

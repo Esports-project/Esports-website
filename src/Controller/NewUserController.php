@@ -14,13 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/dashboard")
+ * @Route("/")
  */
 
 class NewUserController extends AbstractController
 {
     /**
-     * @Route("/users", name="new_user_index", methods={"GET", "POST"})
+     * @Route("/dashboard/users", name="new_user_index", methods={"GET", "POST"})
      */
     public function index(UserRepository $userRepository, DepartementRepository $departementRepository): Response
     {
@@ -43,7 +43,7 @@ class NewUserController extends AbstractController
         $form->handleRequest($request);
         $user->setDateJoin(new \DateTime('now'));
         $user->setDepartement(Null);
-
+        $user->setBanned(0);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
             $user->setPassword(
@@ -90,10 +90,11 @@ class NewUserController extends AbstractController
     /**
      * @Route("/{id}/profile", name="new_user_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(User $user): Response
+    public function show(User $user, UserRepository $userRepository): Response
     {
         return $this->render('new_user/show.html.twig', [
             'user' => $user,
+            'users' => $userRepository->findAllExceptThis($this->getUser()),
         ]);
     }
 
@@ -105,7 +106,7 @@ class NewUserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $request->isXmlHttpRequest()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
             $user->setPassword(
             $passwordEncoder->encodePassword($user, $user->getPassword()));
@@ -120,12 +121,32 @@ class NewUserController extends AbstractController
     }
 
     /**
+     * @Route("/user/{id}/ban", name="ban_user", methods={"GET", "POST"}, requirements={"id":"\d+"})
+     */
+    public function BanUser(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        if ($user->getBanned() == 0)
+        {
+            $user->setBanned(1);
+        }
+        else {
+            $user->setBanned(0);
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('new_user_index', [], Response::HTTP_SEE_OTHER);
+
+    }
+
+    /**
      * @Route("/{id}/edit", name="new_user_edit", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
     public function editUser(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        if ($this->getUser() != $user){
+            return $this->redirectToRoute('new_user_show', ['id' => $user->getId()]);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
@@ -137,6 +158,7 @@ class NewUserController extends AbstractController
         }
         return $this->render('new_user/edit.html.twig', [
             'user' => $user,
+            'users' => $userRepository->findAllExceptThis($this->getUser()),
             'form' => $form->createView(),
         ]);
     }
