@@ -3,12 +3,13 @@
  {% block content %}
  <script>
             var botmanWidget = {
+            bubbleAvatarUrl: '{{ asset('front-office/images/bot.png') }}',
             frameEndpoint: '{{ path("chatframe") }}',
             chatServer: '{{ path("message") }}',
-            introMessage: 'Hello, I am a Chatbot',
-            title: 'My Chatbot', 
-            mainColor: '#456765',
-            bubbleBackground: '#ff76f4',
+            introMessage: 'Hello, I am GhostBot. Say "Help" to see what I can do :) ',
+            title: 'GhostBot', 
+            mainColor: '#000000',
+            bubbleBackground: '#000000',
             aboutText: ''
         };
 </script>
