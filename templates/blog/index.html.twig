@@ -60,7 +60,7 @@
                                             <article class="blog-item category-gs-go  col-12 col-md-4 istp-item">
                                                 <div class="wrap">
                                                     <div class="img">
-                                                        <a href="../../gs-go/streamlining-the-path-to-conversion/index.html" style="background-image: url({{ asset('front-office/img/') }}{{ blog.image }})"></a>
+                                                        <a href="{{ path('blog_show', {'id': blog.id}) }}" style="background-image: url({{ asset('front-office/img/') }}{{ blog.image }})"></a>
                                                     </div>
                                                     <div class="date">
                                                         {{ blog.postDate ? blog.postDate|date('Y-m-d H:i:s') : '' }}
