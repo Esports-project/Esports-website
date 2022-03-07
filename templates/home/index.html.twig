@@ -1,6 +1,18 @@
 {% extends "base-front.html.twig" %}
 {% block title %}Home{% endblock %}
  {% block content %}
+ <script>
+            var botmanWidget = {
+            frameEndpoint: '{{ path("chatframe") }}',
+            chatServer: '{{ path("message") }}',
+            introMessage: 'Hello, I am a Chatbot',
+            title: 'My Chatbot', 
+            mainColor: '#456765',
+            bubbleBackground: '#ff76f4',
+            aboutText: ''
+        };
+</script>
+<script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
   <div class="header-space"></div>      <main class="main-container">
   <div class="container">
 

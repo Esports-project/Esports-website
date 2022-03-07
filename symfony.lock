@@ -2,6 +2,12 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
+    "botman/botman": {
+        "version": "2.6.1"
+    },
+    "botman/driver-web": {
+        "version": "1.5.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -85,6 +91,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "evenement/evenement": {
+        "version": "v3.0.1"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -127,11 +136,17 @@
     "monolog/monolog": {
         "version": "1.26.1"
     },
+    "mpociot/pipeline": {
+        "version": "1.0.2"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "opis/closure": {
+        "version": "3.6.3"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -204,6 +219,27 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "react/cache": {
+        "version": "v1.1.1"
+    },
+    "react/dns": {
+        "version": "v1.9.0"
+    },
+    "react/event-loop": {
+        "version": "v1.2.0"
+    },
+    "react/promise": {
+        "version": "v2.9.0"
+    },
+    "react/promise-timer": {
+        "version": "v1.8.0"
+    },
+    "react/socket": {
+        "version": "v1.11.0"
+    },
+    "react/stream": {
+        "version": "v1.2.0"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },
@@ -263,6 +299,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "spatie/macroable": {
+        "version": "1.0.1"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.7",
@@ -662,6 +701,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "tightenco/collect": {
+        "version": "v8.83.2"
     },
     "twig/extra-bundle": {
         "version": "v3.3.8"
