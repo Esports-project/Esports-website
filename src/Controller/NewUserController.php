@@ -113,7 +113,7 @@ class NewUserController extends AbstractController
     /**
      * @Route("/user/{id}/edit", name="edit_user_admin", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, DepartementRepository $departementRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -122,7 +122,7 @@ class NewUserController extends AbstractController
             $entityManager->persist($user);
             $user->setPassword(
             $passwordEncoder->encodePassword($user, $user->getPassword()));
-            if ($user->getDepartement() != null) {
+            if ($user->getDepartement() != 14) {
                 $user->setRoles(['ROLE_ADMIN']);
             }
             $entityManager->persist($user);
@@ -131,6 +131,7 @@ class NewUserController extends AbstractController
         }
         return $this->render('new_user/edituser.html.twig', [
             'user' => $user,
+            'departements' => $departementRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }

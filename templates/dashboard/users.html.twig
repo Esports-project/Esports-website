@@ -31,6 +31,11 @@
                                                         
                         </th>
                         <th>
+                            Phone Number
+                                                                                        
+                                                        
+                        </th>
+                        <th>
                             Join Date  
                             
                                                         
@@ -64,6 +69,9 @@
                             </td>
                             <td>
                                 {{ user.email }}
+                            </td>
+                            <td>
+                                {{ user.phone }}
                             </td>
                             <td>
                                 {{ user.dateJoin ? user.dateJoin|date('Y-m-d H:i:s') : '' }}

@@ -58,7 +58,7 @@
                                 {{ blog.contenu }}
                             </td>
                             <td>
-                                {{ blog.likes }}
+                                {{ blog.likes | length }}
                             </td>
                             <td>
                                 {{ blog.postDate ? blog.postDate|date('Y-m-d H:i:s') : '' }}

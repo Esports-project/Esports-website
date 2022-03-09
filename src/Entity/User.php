@@ -65,7 +65,7 @@ class User implements \Serializable, UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")

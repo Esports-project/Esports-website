@@ -53,6 +53,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         return $this->createQueryBuilder('user')
             ->andWhere('user.id != :id')
+            ->andWhere('user.roles != :roles')
+            ->setParameter('roles', '["ROLE_ADMIN"]')
             ->setParameter('id', $user)
             ->getQuery()
             ->execute();
