@@ -55,7 +55,7 @@ class ProfilePostsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="profile_posts_show", methods={"GET"})
+     * @Route("/profilepost/{id}", name="profile_posts_show", methods={"GET"})
      */
     public function show(ProfilePosts $profilePost): Response
     {
@@ -65,7 +65,7 @@ class ProfilePostsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="profile_posts_edit", methods={"GET", "POST"})
+     * @Route("/profilepost/{id}/edit", name="profile_posts_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, ProfilePosts $profilePost, ProfilePostsRepository $profilePostsRepository): Response
     {
@@ -84,7 +84,7 @@ class ProfilePostsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="profile_posts_delete", methods={"POST"})
+     * @Route("/profilepost/{id}", name="profile_posts_delete", methods={"POST"})
      */
     public function delete(Request $request, ProfilePosts $profilePost, ProfilePostsRepository $profilePostsRepository): Response
     {
