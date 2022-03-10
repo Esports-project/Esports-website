@@ -1,0 +1,4 @@
+<form method="post" style="display: inline-block" action="{{ path('delete_user_admin', {'id': user.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+    <button style="background-color: transparent"><a class="bi bi-trash white"></a></button>
+</form>

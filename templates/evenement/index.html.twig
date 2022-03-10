@@ -1,0 +1,33 @@
+{% extends "base-front.html.twig" %}
+ {% block content %}
+
+     <div class="header-space"></div>      <div class="page-top-block type-archive" style="">
+     <div class="container">
+         <div class="heading-block">
+             <h1 class="h h3">Events: </h1>
+         </div>
+     </div>
+ </div>
+
+     <main class="main-container">
+         <div class="container">
+             {% for event in events %}
+             <div class="matches-block">
+                 <div class="match-item event-box istp-item category-cs-go">
+                     <div class="wrap">
+                         <div class="content">
+                             <div class="heading">
+                                 <a class="link" href="{{  path('event_details',{'id' : event.id}) }}">{{ event.id }}&#8211; {{ event.nom }}</a>
+                             </div>
+                             <div class="date">December 25, 2020 12:00 am</div>
+                         </div>
+                     </div>
+                     <!--<div class="links">
+                      <a href="#" class="stream-link twitch" target="_blank"><i class="base-icon-twitch"></i><span>twitch stream</span></a>
+                     </div> -->
+                 </div>
+                 {% endfor %}
+             </div>
+         </div>
+     </main>
+ {% endblock %}
