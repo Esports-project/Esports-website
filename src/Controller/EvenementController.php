@@ -35,14 +35,15 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/eventdetails/{id}", name="event_details")
+     * @Route("/eventdetails/{id}/{id_user}", name="event_details")
      * Method({"GET"})
      */
     public function getEventDetails(Request $request)
     {
         $p = $this->getDoctrine()->getRepository(Evenement::class)->findBy(["id"=> $request->get('id')]);
         $id_event = $request->get('id');
-        $par = $this->getDoctrine()->getRepository(Participants::class)->findObject(1,  $id_event);
+        $par = $this->getDoctrine()->getRepository(Participants::class)->findObject($request->get('id_user'),  $id_event);
+
         if($par) {
             $idUsers = $par[0]->getIdUser();
 
@@ -146,7 +147,9 @@ class EvenementController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository(Evenement::class)->find($id);
+        $part = $em->getRepository(Participants::class)->findBy(['id_event'=> $event->getId()]);
         $em->remove($event);
+        $em->remove($part[0]);
          $em->flush();
         $participants = $em->getRepository(Participants::class)->findBy(['id_event' => $id]);
         $users = [];
@@ -168,9 +171,9 @@ class EvenementController extends AbstractController
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Evenement Annulé';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $mail->Subject = 'Event Canceled';
+            $mail->Body    = 'An event which you RSVPed has been canceled. :)';
+            $mail->AltBody = 'Event has been canceled.';
             $mail->SMTPOptions = array(
                 'ssl' => array(
                     'verify_peer' => false,

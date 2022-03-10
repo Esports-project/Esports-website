@@ -16,7 +16,7 @@
                                                      <span>All</span>
                                                  </button>
                                                  {% for e in events %}
-                                                 <button class="button" data-filter=".{{e.nom |formatEvent}}" data-magic-cursor="link-small">
+                                                 <button class="button" data-filter=".{{e.nom | formatEvent}}" data-magic-cursor="link-small">
                                                      <span>{{ e.nom }}</span>
                                                  </button>
                                                  {% endfor %}

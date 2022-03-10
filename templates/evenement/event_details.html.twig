@@ -31,11 +31,11 @@
                              </div>
 
                          </div>
-                         {% if 1 == users and participation %}
-                             <button name="submit" type="submit" id="submit" class="button-style1"><span><a href="{{ path('annuler_participants', {'id_part': participation}) }}" style="color: white;"> Annuler </a></span></button>
+                         {% if app.user.id == users and participation %}
+                             <button name="submit" type="submit" id="submit" class="button-style1"><span><a href="{{ path('annuler_participants', {'id_part': participation,'id_user': app.user.id}) }}" style="color: white;"> Annuler </a></span></button>
                              <button name="submit" type="submit" id="submit" class="button-style1"><span><a href="{{ path('get_qr', {'label': event.nom , 'image': event.image}) }}" style="color: white"> Get QR Code </a></span></button>
                          {% else %}
-                             <button name="submit" type="submit" id="submit" class="button-style1"><span><a href="{{ path('add_participants', {'id_user': 1, 'id_event': event.id}) }}" style="color: white;"> Reserver</a></span></button>
+                             <button name="submit" type="submit" id="submit" class="button-style1"><span><a href="{{ path('add_participants', {'id_user': app.user.id, 'id_event': event.id}) }}" style="color: white;"> Reserver</a></span></button>
                          {% endif %}
                      </div>
                  </div>

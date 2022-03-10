@@ -78,7 +78,7 @@ class EvenementRepository extends ServiceEntityRepository
     public function findObject($value)
     {
         $qb = $this->createQueryBuilder('e')
-            ->orderBy('e.date', 'asc')
+            ->orderBy('e.date', 'ASC')
             ;
         return $qb->getQuery()->execute();
     }

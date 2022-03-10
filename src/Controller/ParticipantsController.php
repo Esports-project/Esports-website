@@ -34,7 +34,7 @@ class ParticipantsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($pars);
         $em->flush();
-        return $this->redirectToRoute('event_details', ['id' => $idEvent]);
+        return $this->redirectToRoute('event_details', ['id' => $idEvent,'id_user'=> $request->get('id_user')]);
     }
 
     /**
@@ -70,7 +70,7 @@ class ParticipantsController extends AbstractController
 
 
     /**
-     * @Route("/annuler_participant/{id_part}", name="annuler_participants")
+     * @Route("/annuler_participant/{id_part}/{id_user}", name="annuler_participants")
      */
     public function AnnulerParticipants(Request $request): Response
     {
@@ -79,6 +79,6 @@ class ParticipantsController extends AbstractController
         $idEvent = $participants->getIdEvent();
         $em->remove($participants);
         $em->flush();
-        return $this->redirectToRoute('event_details',['id'=> $idEvent]);
+        return $this->redirectToRoute('event_details',['id'=> $idEvent,'id_user'=>$request->get('id_user')]);
     }
 }
