@@ -92,15 +92,9 @@ class User implements \Serializable, UserInterface
      */
     private $likes;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ProfilePosts::class, mappedBy="user")
-     */
-    private $user;
-
     public function __construct()
     {
         $this->likes = new ArrayCollection();
-        $this->user = new ArrayCollection();
     }
 
 
@@ -330,36 +324,6 @@ class User implements \Serializable, UserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ProfilePosts>
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(ProfilePosts $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(ProfilePosts $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getUser() === $this) {
-                $user->setUser(null);
             }
         }
 

@@ -19,6 +19,15 @@ class CartService {
         }
         $this->session->set('panier', $panier);
     }
+    public function reduce(int $id) {
+        $panier=$this->session->get('panier', []);
+        if(($panier[$id]>1)){
+            $panier[$id]--;
+        }else {
+            $panier[$id]=1;
+        }
+        $this->session->set('panier', $panier);
+    }
     public function remove(int $id) {
         $panier=$this->session->get('panier', []);
         if(!empty($panier[$id])){
@@ -39,8 +48,6 @@ class CartService {
         }
         return $panierWithData;
     }
-
-
 
     public function getTotal() : float {
         $total=0;
@@ -68,6 +75,20 @@ class CartService {
         }
 
         $this->session->set('panier', $panier);
+    }
+
+    /**
+     * Persists the cart in database and session.
+     *
+     * @param Order $cart
+     */
+    public function save(Order $cart): void
+    {
+        // Persist in database
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
+        // Persist in session
+        $this->cartSessionStorage->setCart($cart);
     }
 
     

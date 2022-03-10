@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invoice</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <style>
+
+        body{
+            background-color: #bdc3c7;
+        }
+        .table-fixed{
+            width: 100%;
+            background-color: #f3f3f3;
+        tbody{
+            height:200px;
+            overflow-y:auto;
+            width: 100%;
+        }
+        thead,tbody,tr,td,th{
+            display:block;
+        }
+        tbody{
+        td{
+            float:left;
+        }
+        }
+        thead {
+        tr{
+        th{
+            float:left;
+            background-color: #f39c12;
+            border-color:#e67e22;
+        }
+        }
+        }
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="invoiceholder">
+
+    <div id="headerimage"></div>
+    <div id="invoice" class="effect2">
+
+        <div id="invoice-top">
+            <div class="logo"></div>
+            <div class="info">
+                <h2><a href="/">LevelUp Team</a></h2>
+                <p> shop@levelup.com <br>
+                    99-137-982
+                </p>
+                <br>
+                </p>
+                <p>
+                    <b>Project Description:</b> Built on entertainment, our solid network of social and <br>
+                    content platforms keeps our greatest assets, players and talent, fully visible and <br>
+                    happily engaged with the global fans and community.
+                </p>
+            </div><!--End Info-->
+            <div class="title">
+                <h1>Invoice #{{ commande.id }}</h1>
+                <p>Issued: {{ commande.date|date('Y-m-d-h-m') }}</br>
+                </p>
+            </div><!--End Title-->
+        </div><!--End InvoiceTop-->
+        <div class="container">
+            <table class="table table-fixed">
+                <thead>
+                <tr>
+                    <th class="col-xs-3">Item</th>
+                    <th class="col-xs-3">Quantity</th>
+                    <th class="col-xs-6">Unitary Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ligne in commande.getLigneCommandes() %}
+
+                <tr>
+                    <td class="col-xs-3">{{ ligne.getProduit().getNom() }}</td>
+                    <td class="col-xs-3">{{ ligne.getQuantite() }}</td>
+                    <td class="col-xs-6">{{ ligne.Produit().getPrice() }}</td>
+                </tr>
+                {% endfor %}
+                <td class="Rate"><h2>Total</h2></td>
+                <td class="payment"><h2>{{ commande.getPrixTotal() }}</h2></td>
+                </tbody>
+            </table>
+        </div>
+    </div><!--End Invoice-->
+</div><!-- End Invoice Holder-->
+</body>
+</html>

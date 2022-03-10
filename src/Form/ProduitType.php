@@ -7,6 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 
 class ProduitType extends AbstractType
@@ -19,9 +23,9 @@ class ProduitType extends AbstractType
             ->add('description')
             ->add('price')
             ->add('quantity')
-            ->add('image')
             ->add('solde')
             ->add('active')
+            ->add('image');
         ;
     }
 
