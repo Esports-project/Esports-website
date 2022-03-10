@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ReclamationRepository::class)
  */
-class Reclamation
+class Reclamation  
 {
     /**
      * @ORM\Id
@@ -18,8 +18,8 @@ class Reclamation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=User::class )
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -47,6 +47,12 @@ class Reclamation
      * @ORM\Column(type="integer")
      */
     private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categories::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -124,4 +130,19 @@ class Reclamation
 
         return $this;
     }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+
+    
 }
