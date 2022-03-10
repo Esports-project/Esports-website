@@ -38,6 +38,10 @@ class Produit
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThan(
+     * value = 0,
+     * message = "Le prix d’un produit ne doit pas être inférieur ou égal à 0 "
+     * )
      * @Assert\NotBlank
      */
     private $price;
@@ -45,11 +49,7 @@ class Produit
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
-     * @Assert\NotEqualTo(
-     * value = 0,
-     * message = "Le prix d’un produit ne doit pas être égal à 0 "
-     * )
-     */
+
     private $description;
 
     /**
@@ -67,6 +67,11 @@ class Produit
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 99,
+     *      notInRangeMessage = "Solde must be between {{ min }}% and {{ max }}% to be passed",
+     * )
      */
     private $solde;
 

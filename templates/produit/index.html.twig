@@ -313,9 +313,7 @@
                     </p>
                     <form class="woocommerce-ordering" method="get">
                         <select name="orderby" class="orderby" aria-label="Shop order">
-                            <option value="menu_order"  selected='selected'>Default sorting</option>
-                            <option value="popularity" >Sort by popularity</option>
-                            <option value="rating" >Sort by average rating</option>
+                            <option value="/store"  selected='selected'>Default sorting</option>
                             <option value="date" >Sort by latest</option>
                             <option value="price" >Sort by price: low to high</option>
                             <option value="price-desc" >Sort by price: high to low</option>
@@ -335,6 +333,7 @@
 
                                     <div class="product-wrap">
                                 <div class="image">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <div class="buttons">
                                         <a rel="nofollow" href="{{ path('cart_add', {'id': produit.id})}}" class="add_to_cart_button product_type_simple" >
                                             <i class="base-icon-shopping-cart">
@@ -344,6 +343,7 @@
                                             </span>
                                         </a>
                                     </div>
+                                    {% endif %}
                                     <a href="/store/produit/{{ produit.id }}" class="img">
                                         <img width="300" height="300" src="{{ asset('front-office/img/') }}{{ produit.image }}" class="show" alt="" loading="lazy"  style="width: 300px; height: 300px; object-fit: cover;" />
                                     </a>

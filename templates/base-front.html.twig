@@ -107,8 +107,9 @@
     <div class="container">
         <div class="row align-items-center justify-content-between">
             <div class="logo-block col-auto">
-                
-            </div>
+                <div class="site-logo">
+                    <a href="/" data-magic-cursor="link"><img class="light" src="{{ asset('front-office/img/logo-light.png') }}" alt="LevelUp"><img class="dark" src="{{ asset('front-office/img/logo-dark.png') }}" alt="LevelUp"></a>              </div>
+        </div>
             <div class="right col-auto">
                 <nav class="navigation visible_menu">
                     <ul id="menu-navigation" class="menu">
@@ -133,34 +134,29 @@
                                 </span>
                             </a>
                         </li>
-                        <li id="menu-item-54" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-54">
-                            <a href="#">
-                                <span>
-                                    Pages
-                                </span>
-                            </a>
-                        </li>
                         <li id="menu-item-52" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-52">
-                            <a href="#">
+                            <a href="/store">
                                 <span>
                                     Shop
                                 </span>
                             </a>
                             <ul class="sub-menu">
                                 <li id="menu-item-51" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51">
-                                    <a href="#">
+                                    <a href="/store">
                                         <span>
                                             Product List
                                         </span>
                                     </a>
                                 </li>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
-                                    <a href="#">
+                                    <a href="/panier">
                                         <span>
                                             Cart
                                         </span>
                                     </a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
@@ -198,7 +194,7 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="widget-user-list-item">
                         <a href="#" class="widget-user-list-link">
-                            <img src="https://media.geeksforgeeks.org/auth/avatar.png" alt="" style="height: 30px; width: 30px;" />
+                            <img src="{{ asset('front-office/img/team1.jpg') }}" alt="" style="height: 30px; width: 30px;   border-radius: 50%;" />
                         </a>
                     </div>
                     <a class="menu-item">
@@ -217,7 +213,7 @@
                         <div class="dropdown-menu" style="background-color: #1A1A1A; right: 0px;">
                             <a class="dropdown-item white" href="{{ path('new_user_show', {'id': app.user.id}) }}">
                                 Profile
-                            </span>
+                            </a>
                             <a class="dropdown-item white" href="{{ path('new_user_edit', {'id': app.user.id}) }}">
                                 Settings
                             </a>
@@ -230,39 +226,25 @@
                             </a>
                         </div>
                     </div>
+                    <div class="header-minicart woocommerce header-minicart-plaxer">
+                        <div class="hm-count">
+                            <a href="/panier"><i class="base-icon-shopping-cart"></i></a>
+                        </div>
+                    </div>
                 {% else %}
                     <a class="button-style2" href="{{ path('login') }}">
                         <span>
                             Login
                         </span>
                     </a>
+
                 {% endif %}
-                <div class="header-search-button">
-                    <i class="base-icon-magnifying-glass"></i>
-                </div>
-                <div class="header-minicart woocommerce header-minicart-plaxer">
-                    <div class="hm-count">
-                        <i class="base-icon-shopping-cart"></i>
-                    </div>
-                </div>
+
             </div>
            
         </div>
     </div>
 </header>
-<div class="search-popup">
-    <div class="close base-icon-cross"></div>
-    <div class="form-block">
-        <form role="search" method="get" class="searchform" action="https://promo-theme.com/plaxer/">
-            <div>
-                <input type="text" value="" placeholder="Type and hit enter" name="s" class="input" />
-            </div>
-            <button type="submit" class="searchsubmit" value="">
-                <i class="base-icon-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
-</div>
 <div class="sidebar-content-block">
     <div class="close base-icon-cross"></div>
     <div class="wrap scrollbar-inner">
@@ -274,30 +256,6 @@
             <div class="desc">
                 Through our best techniques and bespoke growth plans we assess digital problems and put in place strategies that lead to commercial success. 
             </div>
-            <div class="social-links">
-                <span class="label">
-                    Follow Us:
-                </span>
-                <a href="#" target="_self">
-                    <i class="base-icon-instagram-social-network-logo-of-photo-camera"></i>
-                </a>
-                <a href="#" target="_self">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" target="_self">
-                    <i class="fab fa-twitter"></i>
-                </a>
-            </div>
-        </div>
-        <div id="search-3" class="widget widget_search">
-            <form role="search" method="get" class="searchform" action="https://promo-theme.com/plaxer/">
-                <div>
-                    <input type="text" value="" placeholder="Type and hit enter" name="s" class="input" />
-                </div>
-                <button type="submit" class="searchsubmit" value="">
-                    <i class="base-icon-magnifying-glass"></i>
-                </button>
-            </form>
         </div>
     </div>
 </div>{% endblock %}{% block content %}{% endblock %}{% block javascripts %} {% endblock %}</div><div id="footer">{% block footer %}
