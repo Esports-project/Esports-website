@@ -8,12 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
  * @UniqueEntity("referance")
- * @Vich\Uploadable
  */
 class Produit
 {
@@ -59,13 +58,6 @@ class Produit
     private $image;
 
     /**
-     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
-     * @var File
-     */
-    private $imageFile;
-
-
-    /**
      * @ORM\Column(type="float", nullable=true)
      */
     private $solde;
@@ -87,16 +79,10 @@ class Produit
      */
     private $referance;
 
-
     /**
      * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="produit")
      */
     private $ligneCommandes;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
 
     public function __construct()
     {
@@ -168,24 +154,6 @@ class Produit
         return $this;
     }
 
-    //public function setImageFile(File $image = null)
-    //{
-       // $this->imageFile = $image;
-
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        //if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-        //    $this->updatedAt = new \DateTime('now');
-       // }
-   // }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
     public function getSolde(): ?float
     {
         return $this->solde;
@@ -222,9 +190,6 @@ class Produit
         return $this;
     }
 
-
-
-
     /**
      * @return Collection<int, LigneCommande>
      */
@@ -251,18 +216,6 @@ class Produit
                 $ligneCommande->setProduit(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use App\Repository\ReclamationRepository;
+use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +21,10 @@ class ReclamationController extends AbstractController
     /**
      * @Route("/", name="reclamation_index", methods={"GET"})
      */
-    public function index(ReclamationRepository $reclamationRepository): Response
+    public function index(ReclamationRepository $reclamationRepository, CategoriesRepository $categoriesRepository): Response
     {
         return $this->render('dashboard/reclamations.html.twig', [
+            'categories' => $categoriesRepository->findAll(),
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
@@ -52,8 +54,16 @@ class ReclamationController extends AbstractController
     
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager->persist($reclamation);
-                $entityManager->flush();            
+                $session = $request->getSession();
+                $session->set('rec_sujet', $reclamation->getSujet());
+                $session->set('rec_description', $reclamation->getDescription());
+                $session->set('rec_user', $reclamation->getUser());
+                $session->set('rec_email', $reclamation->getEmail());
+                $session->set('rec_date', $reclamation->getDate());
+                $session->set('rec_status', $reclamation->getStatus());
+                $session->set('rec_category', $reclamation->getCategory());   
+          
+                return $this->redirectToRoute('app_faq_index', ['id' => $reclamation->getCategory()->getId()], Response::HTTP_SEE_OTHER);
             }   
 
             return $this->render('reclamation/new.html.twig', [

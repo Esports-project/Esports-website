@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,8 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-
 
 class ProduitController extends AbstractController
 {
@@ -21,14 +18,9 @@ class ProduitController extends AbstractController
     /**
      * @Route("/store", name="store")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(): Response
     {
-        $donnees = $this->getDoctrine()->getRepository(Produit::class)->findBy(['active' => 'true']);
-        $produits = $paginator->paginate(
-            $donnees,
-            $request->query->getInt('page', 1),
-            4
-        );
+        $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
         return $this->render('produit/index.html.twig', ['produits' => $produits]);
     }
 
@@ -52,7 +44,6 @@ class ProduitController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $Produit = $form->getData();
             if($Produit->getSolde() != null){ $Produit->setPrice($Produit->getPrice() -( $Produit->getPrice() * $Produit->getSolde() /100) ) ; }
-            $Produit->setUpdatedAt(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($Produit);
             $entityManager->flush();
@@ -96,7 +87,7 @@ class ProduitController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             if($produit->getSolde() != null){ $produit->setPrice($produit->getPrice() -( $produit->getPrice() * $produit->getSolde() /100) ) ; }
-            $produit->setUpdatedAt(new \DateTime());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 

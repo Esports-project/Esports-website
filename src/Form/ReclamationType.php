@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Form;
-
-use App\Entity\Reclamation;;
+use App\Entity\Categories;
+use App\Entity\Reclamation;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -15,11 +15,21 @@ class ReclamationType extends AbstractType
     {
         $builder
             ->add('sujet')
+            ->add('category', EntityType::class, [
+                'by_reference' => true,
+                'class' => Categories::class,
+                'choice_label' => function($nom){
+                    return $nom->getName();
+                },
+                
+            ])
             ->add('email')
             ->add('description')
             ->add('user', EntityType::class, [
                 'class' => User::class,
-            
+                'choice_label' => function($nom){
+                    return $nom->getUsername();
+                },
         ]);
     }
 
