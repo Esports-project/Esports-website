@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ClassementController extends AbstractController
 {
+
+    private $js="";
     /**
      * @Route("/classement", name="app_classement")
      */
@@ -36,6 +38,7 @@ class ClassementController extends AbstractController
             array('classement' => $p));
     }
 
+
     /**
      * @Route("/addclassement", name="add_ranking")
      * Method({"GET","POST"})
@@ -43,16 +46,32 @@ class ClassementController extends AbstractController
 
     public function AjouterEvenement(Request $request)
     {
+
         $c = new Classement();
         $form = $this->createForm(ClassementType::class, $c,  array(
             'event' => $request->get('id')));
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $classements = $this->getDoctrine()->getRepository(Classement::class)->findBy(['evenement'=> $c->getEvenement()->getId()]);
+            $ranks = [];
+            foreach ($classements as $clas){
+                array_push($ranks, $clas->getRang());
+            }
+            if(in_array($c->getRang(), $ranks)){
+                $js= "Rank already exists";
+                return $this->render('classement/ajouter_classement_admin.html.twig', array(
+                    'classement' => $c, 'js'=>$js,
+                    'form' => $form->createView(),
+                ));
+            } else {
+                $js="";
             $em = $this->getDoctrine()->getManager();
             $em->persist($c);
             $em->flush();
             return $this->redirectToRoute('show_classement_admin');
+            }
         }
 
         return $this->render('classement/ajouter_classement_admin.html.twig', array(

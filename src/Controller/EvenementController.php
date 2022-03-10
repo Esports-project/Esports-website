@@ -98,6 +98,20 @@ class EvenementController extends AbstractController
         return $this->render('evenement/afficher_evenements_admin.html.twig',
             array('events' => $p));
     }
+
+    /**
+     * @Route("/dashboard/admin_events_ordered", name="show_events_ordered_admin")
+     * Method({"GET"})
+     */
+    public function getEventsAdminOrdered()
+    {
+        $value = 1;
+        $p = $this->getDoctrine()->getRepository(Evenement::class)->findObject($value);
+        return $this->render('evenement/afficher_evenement_tri_admin.html.twig',
+            array('events' => $p));
+    }
+
+
     /**
      * @Route("/addevent", name="add_events")
      * Method({"POST"})

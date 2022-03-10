@@ -30,12 +30,7 @@ class ClassementType extends AbstractType
                 'class'=>Evenement::class,
                 'choice_label'=>'nom',
                 'multiple'=>false))
-            ->add('Rang', IntegerType::class,
-                [
-                    'data' => $options['event'],
-                    ]
-
-            )
+            ->add('Rang', IntegerType::class)
             ->add('Ajouter',SubmitType::class);
     }
 
@@ -48,6 +43,6 @@ class ClassementType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'gestion_shop_bundle_produits_type';
+        return 'gestion_ranking';
     }
 }

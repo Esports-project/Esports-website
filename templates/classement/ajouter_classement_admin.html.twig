@@ -1,6 +1,9 @@
 {% extends "base-dashboard.html.twig" %}
 {% block content %}
+    {% if  ((js is defined) and (js is not null)) %}
+    {{ js }}
 
+    {% endif %}
     <div id="formControls" class="mb-5">
         <div class="card">
             <div class="card-body pb-2">
@@ -11,7 +14,7 @@
                             {{ form_start(form) }}
                             {{ form_row(form.equipe, {'attr': {'class': 'form-control','background': 'black'}}) }}
                             {{ form_row(form.evenement, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_row(form.Rang, {'attr': {'class': 'form-control','placeholder': 'Rang'}}) }}
+                            {{ form_row(form.Rang, {'attr': {'class': 'form-control rang','placeholder': 'Rang'}}) }}
                             {{ form_end(form) }}
                         </div>
                     </div>
@@ -19,5 +22,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
