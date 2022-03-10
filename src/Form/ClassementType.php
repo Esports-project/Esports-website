@@ -2,11 +2,17 @@
 
 namespace src\Form;
 
+use App\Entity\Classement;
 use App\Entity\Equipe;
 use App\Entity\Evenement;
+use App\Repository\ClassementRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,13 +30,20 @@ class ClassementType extends AbstractType
                 'class'=>Evenement::class,
                 'choice_label'=>'nom',
                 'multiple'=>false))
-            ->add('Rang')
+            ->add('Rang', IntegerType::class,
+                [
+                    'data' => $options['event'],
+                    ]
+
+            )
             ->add('Ajouter',SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver->setDefaults(array(
+            'event' => null,
+        ));
     }
 
     public function getBlockPrefix()

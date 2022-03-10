@@ -587,6 +587,7 @@ jQuery(document).ready(function ($) {
             }
 
             if ((loading && cat_full_length - load_items.length <= 0) || (!loading && cat_full_length == 0)) {
+				console.log("3asba")
               $button.fadeOut();
             } else {
               $button.fadeIn();

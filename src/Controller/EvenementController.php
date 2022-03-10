@@ -148,8 +148,8 @@ class EvenementController extends AbstractController
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->SMTPKeepAlive = true; //SMTP connection will not close after each email sent, reduces SMTP overhead
-            $mail->Username   = 'email';                     //SMTP username
-            $mail->Password   = 'pwd';                          //Enable implicit TLS encryption
+            $mail->Username   = 'beyaghalia.necib@esprit.tn';                     //SMTP username
+            $mail->Password   = 'bayancib2000';                          //Enable implicit TLS encryption
             $mail->Port       = 25;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Content

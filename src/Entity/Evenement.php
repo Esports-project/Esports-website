@@ -233,7 +233,7 @@ class Evenement
 
     public function getUploadRoot()
     {
-        return __DIR__.'/../../public/front-office/img/'.$this->getUploadDir();
+        return __DIR__.'/../../public/front-office/images/'.$this->getUploadDir();
     }
 
     public function upload()

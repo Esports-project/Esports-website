@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Classement;
+use App\Entity\Evenement;
 use src\Form\ClassementType;
 use src\Form\EditClassementType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,8 +19,9 @@ class ClassementController extends AbstractController
     public function index(): Response
     {
         $p = $this->getDoctrine()->getRepository(Classement::class)->findAll();
-        return $this->render('classement/index.html.twig',
-            array('classement' => $p));
+        $events = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        return $this->render('classement/classement_front.html.twig',
+            array('classement' => $p, "events"=> $events));
     }
 
     /**
@@ -42,7 +44,8 @@ class ClassementController extends AbstractController
     public function AjouterEvenement(Request $request)
     {
         $c = new Classement();
-        $form = $this->createForm(ClassementType::class, $c);
+        $form = $this->createForm(ClassementType::class, $c,  array(
+            'event' => $request->get('id')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

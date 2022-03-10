@@ -1,6 +1,5 @@
 {% extends "base-dashboard.html.twig" %}
 {% block content %}
-    <a href="{{ path('add_ranking') }}"><button type="button" style="margin-left: 15px; margin-bottom: 15px;" class="btn btn-theme">Add Ranking</button></a>
 
     <div class="col-xl-6">
 
@@ -27,10 +26,11 @@
                                 </td>
                                 <td><small>{{ c.equipe.nom }}</small></td>
                                 <td>
-                                    <span class="badge d-block bg-white bg-opacity-25 rounded-0 pt-5px w-70px" style="min-height: 18px">{{ c.evenement.nom }}</span>
+                                    <span class="badge d-block bg-white bg-opacity-25 rounded-0 pt-5px w-150px" style="min-height: 18px">{{ c.evenement.nom }}</span>
                                 </td>
                                 <td><a href="{{ path('edit_classement',{ 'id': c.id }) }}" class="text-decoration-none text-white">Edit</a></td>
                                 <td><a href="{{ path('delete_classement',{ 'id': c.id }) }}" class="text-decoration-none text-white">Delete</a></td>
+                                <td><a href="{{ path('add_ranking', {'id': c.evenement.id }) }}"><button type="button" class="btn btn-theme">Add Ranking</button></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
