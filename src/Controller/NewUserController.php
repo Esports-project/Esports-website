@@ -2,16 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\ProfilePosts;
 use App\Entity\User;
-use App\Form\ProfilePostsType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\DepartementRepository;
-use App\Repository\ProfilePostsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -104,34 +100,11 @@ class NewUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/profile", name="new_user_show", methods={"GET", "POST"}, requirements={"id":"\d+"})
+     * @Route("/{id}/profile", name="new_user_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(Request $request, User $user, UserRepository $userRepository, ProfilePostsRepository $profilePostsRepository, EntityManagerInterface $entityManager): Response
+    public function show(User $user, UserRepository $userRepository): Response
     {
-
-        $profilePost = new ProfilePosts();
-        $form = $this->createForm(ProfilePostsType::class, $profilePost);
-        $form->handleRequest($request);
-
-        if ($request->isXmlHttpRequest()) {
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                
-                $profilePost->setUser($this->getUser());
-                $profilePost->setImage('bg1.jpg');
-                $profilePostsRepository->add($profilePost);
-                return $this->json([
-                    'code' => 200,
-                    'message' => 'Post added',
-                    'content' => $profilePost->getContent(),
-                ], 200);
-            }
-        }
-
         return $this->render('new_user/show.html.twig', [
-            'form' => $form->createView(),
-            'profilepost' => $profilePost,
-            'profileposts' => $profilePostsRepository->findBy(['user' => $this->getUser()]),
             'user' => $user,
             'users' => $userRepository->findAllExceptThis($this->getUser()),
         ]);

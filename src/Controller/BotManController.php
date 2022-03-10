@@ -32,7 +32,6 @@ class BotManController extends AbstractController
             $bot->reply('Hello!');
         });
 
-
         // Set a fallback
         $botman->fallback(function (BotMan $bot) {
             $bot->reply('Sorry, I did not understand.');

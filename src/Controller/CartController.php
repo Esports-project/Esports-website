@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\CartType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,9 @@ use App\Form\ProduitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 use App\Services\Cart\CartService;
 
@@ -39,6 +43,26 @@ class CartController extends AbstractController
         $cartService->add($id);
         return $this->redirectToRoute('cart_index');
     }
+    /**
+     * @Route("/panier/reduce/{id}", name="cart_reduce")
+     */
+    public function reduce($id, CartService $cartService)
+    {
+        $cartService->reduce($id);
+        return $this->redirectToRoute('cart_index');
+    }
+
+    /**
+     * @Route("/panier/addQuantity/{id}", name="cart_addQuantity")
+     */
+    public function quantityCheck($id, CartService $cartService, Request $request)
+    {
+        $form = $this->createForm(CartType::class);
+        $form->handleRequest($request);
+        $qte=$form->getData('qte');
+        $cartService->addQuantity($id, $qte);
+        return $this->redirectToRoute('cart_index');
+    }
 
     /**
      * @Route("/panier/remove/{id}", name="cart_remove")
@@ -52,11 +76,19 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/create-checkout-session", name="checkout")
+     * @Route("/error", name="error")
      */
-    public function checkout(CartService $cartService)
+    public function error()
     {
-        \Stripe\Stripe::setApiKey('pk_test_ljnAOl54FFPm8G9H0X7dQGfD');
+        return $this->render('home/404.html.twig');
+    }
+
+    /**
+     * @Route("/checkout", name="checkout")
+     */
+    public function checkout(CartService $cartService, $stripeSK)
+    {
+        \Stripe\Stripe::setApiKey($stripeSK);
 
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
@@ -71,20 +103,15 @@ class CartController extends AbstractController
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'success_url' => $this->generateUrl('AjouterCommande', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
-        return new JsonResponse([ 'id' => $session->id ]);
+        //return $this->redirectToRoute('AjouterCommande');
+        return $this->redirect($session->url, 303);
     }
 
 
-    /**
-     * @Route("/error", name="error")
-     */
-    public function error()
-    {
-        return $this->render('article/Error.html.twig');
-    }
+
 
 }

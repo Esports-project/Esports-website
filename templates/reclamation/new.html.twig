@@ -37,17 +37,14 @@ $(function(){
 		<form id="reclamation_form" onkeyup="success()" class="woocommerce-form woocommerce-form-login login" name="reclamation"  method="post">
 			<p class="woocommerce-form-row input-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="reclamation_sujet">Subject&nbsp;<span>*</span></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[sujet]" id="reclamation_sujet"  />
-            </p>
-            <p class="woocommerce-form-row input-row woocommerce-form-row--wide form-row form-row-wide">
-            <label for="reclamation_category">Category&nbsp;<span>*</span></label>
-            {{ form_widget(form.category) }}
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[sujet]" id="reclamation_sujet" />
             </p>
             <p class="woocommerce-form-row input-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="reclamation_email">Email&nbsp;<span>*</span></label>       
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[email]" id="reclamation_email" value="{{ app.user.email }}"/>
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[email]" id="reclamation_email" />
             </p>
-				<input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[user]" id="reclamation_user" value="{{ app.user.id }}" />           
+				<input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[user]" id="reclamation_user" value="{{ app.user.id }}" />
+            
             <p class="woocommerce-form-row input-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="reclamation_description">Description&nbsp;<span>*</span></label>
                 <textarea id = "reclamation_description" name="reclamation[description]" cols="40" rows="36" class="wpcf7-form-control wpcf7-textarea style1 light" aria-invalid="false" placeholder="Description"></textarea>          </p>
