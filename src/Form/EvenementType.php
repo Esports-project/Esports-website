@@ -1,34 +1,37 @@
 <?php
 
-namespace App\Form;
+namespace src\Form;
 
-use App\Entity\Evenement;
-use App\Entity\Equipe;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EvenementType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nom')
-            ->add('organisateur')
-            ->add('equipes', EntityType::class, [
-                'class' => Equipe::class,
-                'mapped' => false,
-                'choice_label' => function($nom){
-                    return $nom->getNom();
-                },
-            ]);
+        $builder ->add('Nom')
+            ->add('Organisateur')
+            ->add('Description')
+            ->add('Date', DateType::class, [
+                'placeholder' => [
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                ],
+            ])
+            ->add('File',FileType::class)
+            ->add('Ajouter',SubmitType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Evenement::class,
-        ]);
+
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'gestion_shop_bundle_produits_type';
     }
 }

@@ -87,7 +87,6 @@ class Produit
      */
     private $referance;
 
-
     /**
      * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="produit")
      */

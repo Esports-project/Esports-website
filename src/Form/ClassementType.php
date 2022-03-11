@@ -1,40 +1,48 @@
 <?php
 
-namespace App\Form;
+namespace src\Form;
 
 use App\Entity\Classement;
 use App\Entity\Equipe;
 use App\Entity\Evenement;
+use App\Repository\ClassementRepository;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ClassementType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('rang')
-            ->add('equipe', EntityType::class, [
-                'class' => Equipe::class,
-                'mapped' => false,
-                'choice_label' => function($nom){
-                    return $nom->getNom();
-                },
-            ])
-            ->add('evenement', EntityType::class, [
-                'class' => Evenement::class,
-                'choice_label' => function($nom){
-                    return $nom->getNom();
-                }
-            ]);
+            ->add('equipe', EntityType::class, array(
+                'class'=>Equipe::class,
+                'choice_label'=>'nom',
+                'multiple'=>false))
+            ->add('evenement', EntityType::class, array(
+                'class'=>Evenement::class,
+                'choice_label'=>'nom',
+                'multiple'=>false))
+            ->add('Rang', IntegerType::class)
+            ->add('Ajouter',SubmitType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Classement::class,
-        ]);
+        $resolver->setDefaults(array(
+            'event' => null,
+        ));
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'gestion_ranking';
     }
 }

@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
@@ -31,7 +30,6 @@ class BotManController extends AbstractController
         $botman->hears('(hello|hi|hey)', function (BotMan $bot) {
             $bot->reply('Hello!');
         });
-
 
         // Set a fallback
         $botman->fallback(function (BotMan $bot) {

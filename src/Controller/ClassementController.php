@@ -3,98 +3,122 @@
 namespace App\Controller;
 
 use App\Entity\Classement;
-use App\Form\ClassementType;
-use App\Repository\ClassementRepository;
-use App\Repository\EquipeRepository;
-use App\Repository\EvenementRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Evenement;
+use src\Form\ClassementType;
+use src\Form\EditClassementType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/dashboard")
- */
 class ClassementController extends AbstractController
 {
+
+    private $js="";
     /**
-     * @Route("/ranks", name="classement_index", methods={"GET"})
+     * @Route("/classement", name="app_classement")
      */
-    public function index(ClassementRepository $classementRepository, EquipeRepository $equipeRepository, EvenementRepository $evenementRepository): Response
+    public function index(): Response
     {
-        $classement = new classement();
-        $form = $this->createForm(ClassementType::class, $classement);
-        return $this->render('dashboard/ranks.html.twig', [
-            'classements' => $classementRepository->findAll(),
-            'equipes' => $equipeRepository->findAll(),
-            'evenements' => $evenementRepository->findAll(),
-            'form' => $form->createView(),
-        ]);
+        $p = $this->getDoctrine()->getRepository(Classement::class)->findAll();
+        $events = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        return $this->render('classement/classement_front.html.twig',
+            array('classement' => $p, "events"=> $events));
     }
 
     /**
-     * @Route("/rank/addrank", name="classement_new", methods={"GET", "POST"})
+     * @Route("/dashboard/admin_classements", name="show_classement_admin")
+     * Method({"GET"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function getEventsAdmin()
     {
-        $classement = new Classement();
-        $form = $this->createForm(ClassementType::class, $classement);
+        $p = $this->getDoctrine()->getRepository(Classement::class)->findAll();
+
+        return $this->render('classement/afficher_classement_admin.html.twig',
+            array('classement' => $p));
+    }
+
+
+    /**
+     * @Route("/addclassement", name="add_ranking")
+     * Method({"GET","POST"})
+     */
+
+    public function AjouterEvenement(Request $request)
+    {
+
+        $c = new Classement();
+        $form = $this->createForm(ClassementType::class, $c,  array(
+            'event' => $request->get('id')));
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($classement);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('classement_index', [], Response::HTTP_SEE_OTHER);
+            $classements = $this->getDoctrine()->getRepository(Classement::class)->findBy(['evenement'=> $c->getEvenement()->getId()]);
+            $ranks = [];
+            foreach ($classements as $clas){
+                array_push($ranks, $clas->getRang());
+            }
+            if(in_array($c->getRang(), $ranks)){
+                $js= "Rank already exists";
+                return $this->render('classement/ajouter_classement_admin.html.twig', array(
+                    'classement' => $c, 'js'=>$js,
+                    'form' => $form->createView(),
+                ));
+            } else {
+                $js="";
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($c);
+            $em->flush();
+            return $this->redirectToRoute('show_classement_admin');
+            }
         }
 
-        return $this->render('classement/new.html.twig', [
-            'classement' => $classement,
+        return $this->render('classement/ajouter_classement_admin.html.twig', array(
+            'classement' => $c,
             'form' => $form->createView(),
-        ]);
+        ));
     }
 
     /**
-     * @Route("/rank/{id}", name="classement_show", methods={"GET"})
+     * @Route("/deleteclassement/{id}", name="delete_classement")
+     * Method({"GET","POST"})
      */
-    public function show(Classement $classement): Response
+    public function DeleteClassement($id)
     {
-        return $this->render('classement/show.html.twig', [
-            'classement' => $classement,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $c = $em->getRepository(Classement::class)->find($id);
+        $em->remove($c);
+        $em->flush();
+        return $this->redirectToRoute('show_classement_admin');
     }
 
     /**
-     * @Route("/rank/{id}/edit", name="classement_edit", methods={"GET", "POST"})
+     * @Route("/editclassement/{id}", name="edit_classement")
+     * Method({"GET","POST"})
      */
-    public function edit(Request $request, Classement $classement, EntityManagerInterface $entityManager): Response
+    public function ModifierAction(Request $request, Classement $c)
     {
-        $form = $this->createForm(ClassementType::class, $classement);
-        $form->handleRequest($request);
+        $previousRank = $c->getRang();
+        $editForm = $this->createForm(EditClassementType::class, $c);
+        $editForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('classement_index', [], Response::HTTP_SEE_OTHER);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $newRank = $c->getRang();
+            $em = $this->getDoctrine()->getManager();
+            $old_c = new Classement();
+            $old_c = $em->getRepository(Classement::class)->findOneBy(['rang'=>$newRank]);
+            $em->remove($old_c);
+            $old_c->setRang($previousRank);
+            $em->persist($old_c);
+            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('show_classement_admin');
         }
 
-        return $this->render('classement/edit.html.twig', [
-            'classement' => $classement,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/rank/{id}/delete", name="classement_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Classement $classement, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$classement->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($classement);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('classement_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('classement/modifier_classement_admin.html.twig', array(
+            'classement' => $c,
+            'form' => $editForm->createView(),
+        ));
     }
 }
