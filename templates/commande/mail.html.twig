@@ -16,7 +16,7 @@
 {% endfor %}
 
 <h2>Dear {{ app.user.nom }} {{ app.user.prenom }}, Thank You For Shopping With LevelUp !</h2>
-<h4>This Email is a confirmation that you ordered a total of <b>{{ commande.getQuantite() }}</b> products priced at <b>{{ commande.getPrixTotal() }}</b> </h4>
+<h4>This Email is a confirmation that you ordered a total of <b>{{ commande.getQuantite() }}</b> products priced at <b>{{ commande.getPrixTotal() }} TND</b> </h4>
 <h2>We hope to see you again soon {{ app.user.nom }} !</h2>
 </body>
 </html>

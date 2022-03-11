@@ -59,6 +59,11 @@
                     {% for commande in commandes %}
                     {% set i = i + commande.getPrixTotal() %}
                     {% endfor %}
+                    {% set j = 0 %}
+                    {% for produit in produits %}
+                        {% set j = j + produit.price %}
+                    {% endfor %}
+
                     <div class="row align-items-center mb-2">
                         <div class="col-7">
                             <h3 class="mb-0">
@@ -73,11 +78,11 @@
                     <div class="small text-white text-opacity-50 text-truncate">
                         <br/>
                         <i class="fa fa-shopping-bag fa-fw me-1"></i>
-                        {{ produits | length }} Products Published
+                        {{ produits | length }} Products Publishedq
                                                                 
                         <br/>
                         <i class="fa fa-dollar-sign fa-fw me-1"></i>
-                         6.21% Average Price
+                        {{ j / produits | length }}tnd Average Price
 
                                                             
                     </div>
