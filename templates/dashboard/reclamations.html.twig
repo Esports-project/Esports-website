@@ -73,6 +73,7 @@
                                 {{ reclamation.user.username }}
                             </td>                  
                             <td>
+                               <a href="{{ path('reclamation_reply', {'id': reclamation.id}) }}" class="fas fa-reply white"></a>
                                 <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="bi bi-pencil white"></a>
                                 {{ include('reclamation/_delete_form.html.twig') }}
 

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Reclamation;
+use App\Entity\Faq;
+use App\Form\FaqType;
 use App\Form\ReclamationType;
 use App\Repository\ReclamationRepository;
 use App\Repository\CategoriesRepository;
@@ -75,7 +77,6 @@ class ReclamationController extends AbstractController
        
     }
 
-
     /**
      * @Route("/{id}", name="reclamation_show", methods={"GET"})
      */
@@ -121,5 +122,27 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 
+     /**
+     * @Route("/{id}/reply", name="reclamation_reply", methods={"GET", "POST"})
+     */
+    public function reply(Request $request, UserRepository $userRepository ,Reclamation $reclamation ,EntityManagerInterface $entityManager): Response
+    {
+        $faq = new Faq();
+        $faq->setCategory($reclamation->getCategory());
+        $form = $this->createForm(FaqType::class, $faq);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($faq);
+            $entityManager->flush();
+            return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('reclamation/reply.html.twig', [
+            'reclamation' => $reclamation,
+            'categorys' => $reclamation->getCategory(),
+            'users' => $userRepository->findAll(),
+            'form' => $form->createView(),
+        ]);
+    }
   
 }   

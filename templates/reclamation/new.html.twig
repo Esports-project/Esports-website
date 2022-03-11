@@ -45,7 +45,10 @@ $(function(){
             {{ form_widget(form.category) }}
             </p>
             <p class="woocommerce-form-row input-row woocommerce-form-row--wide form-row form-row-wide">
-				<label for="reclamation_email">Email&nbsp;<span>*</span></label>       
+			{{ form_errors(form.email) }}
+      	<label for="reclamation_email">Email&nbsp;<span>*</span></label>
+        
+ 
 				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[email]" id="reclamation_email" value="{{ app.user.email }}"/>
             </p>
 				<input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="reclamation[user]" id="reclamation_user" value="{{ app.user.id }}" />           
