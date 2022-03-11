@@ -17,6 +17,9 @@ class MessageType extends AbstractType
             ->add('contenu')
             ->add('receiver', EntityType::class, [
                 'class' => User::class,
+                'choice_label' => function($nom){
+                    return $nom->getUsername();
+                },
             
         ])
         ;

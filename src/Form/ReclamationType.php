@@ -16,7 +16,6 @@ class ReclamationType extends AbstractType
         $builder
             ->add('sujet')
             ->add('category', EntityType::class, [
-                'by_reference' => true,
                 'class' => Categories::class,
                 'choice_label' => function($nom){
                     return $nom->getName();

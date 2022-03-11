@@ -32,7 +32,7 @@
                                                         
                         </th>
                         <th>
-                            status
+                            Category
                                                                                         
                                                         
                         </th>
@@ -67,14 +67,15 @@
                                 {{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}
                             </td>
                             <td>
-                                {{ reclamation.status }}
+                                {{ reclamation.category }}
                             </td>
                             <td>
                                 {{ reclamation.user.username }}
                             </td>                  
                             <td>
-                                <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="far fa-share-square white"></a>
+                                <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="bi bi-pencil white"></a>
                                 {{ include('reclamation/_delete_form.html.twig') }}
+
                             </a>
                             </td>
                         </tr>

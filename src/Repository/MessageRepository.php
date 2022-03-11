@@ -73,7 +73,15 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function deleteAll($value){
+        return $this->createQueryBuilder('m')
+        ->delete()
+        ->Where('m.receiver = :val')
+        ->orWhere('m.sender = :val')
+        ->setParameter('val', $value)
+        ->getQuery()
+        ->getResult();
+    }
   
 
     public function findMessages($value){

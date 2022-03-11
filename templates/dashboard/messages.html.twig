@@ -1,7 +1,9 @@
 {% extends "base-dashboard.html.twig" %}
 {% block content %}
     <div class="card">
+   
         <div class="card-body">
+       
             <table id="datatableDefault" class="table text-nowrap w-100">
                 <thead>
                     <tr>
@@ -48,8 +50,11 @@
                                 {{ message.sender.nom }}
                             </td>
                             <td>
-                                <a href="{{ path('app_message_reply', {'receiver' : message.sender.id }) }}" class="bi bi-pencil white"></a>
+                                 <a href="{{ path('app_message_edit', {'id' : message.id }) }}" class="bi bi-pencil white"></a>
+                                <a href="{{ path('app_message_reply', {'receiver' : message.sender.id }) }}" class="fas fa-reply white"></a>
                                 {{ include('message/_delete_form.html.twig') }}
+                                 <a href="{{ path('app_message_deleteall', {'receiver': message.sender.id}) }}" class=>Delete all</a>
+
                             </a>
                             </td>
                         </tr>                        

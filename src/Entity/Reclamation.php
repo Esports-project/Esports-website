@@ -49,7 +49,7 @@ class Reclamation
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Categories::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;

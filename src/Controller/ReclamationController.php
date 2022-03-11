@@ -6,6 +6,7 @@ use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use App\Repository\ReclamationRepository;
 use App\Repository\CategoriesRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +89,7 @@ class ReclamationController extends AbstractController
     /**
      * @Route("/{id}/edit", name="reclamation_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, UserRepository $userRepository ,Reclamation $reclamation, CategoriesRepository $categoriesRepository ,EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -101,6 +102,8 @@ class ReclamationController extends AbstractController
 
         return $this->render('reclamation/edit.html.twig', [
             'reclamation' => $reclamation,
+            'categorys' => $categoriesRepository->findAll(),
+            'users' => $userRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
