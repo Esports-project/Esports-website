@@ -227,6 +227,7 @@
                             #}
 
 
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                             <div class="buttons ">
                                 <a rel="nofollow" href="{{ path('cart_add', {'id': produit.id})}}" class="add_to_cart_button product_type_simple" >
@@ -237,6 +238,7 @@
                                             </span>
                                 </a>
                             </div>
+                            {% endif %}
 
                         </form>
 

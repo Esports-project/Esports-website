@@ -5,6 +5,8 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="theme-color" content="#000">
+            <link rel="icon" href="{{ asset('triangle.png') }}">
+
             <title>
                 {% block title %}{% endblock %}
                 - LevelUp
@@ -107,7 +109,12 @@
     <div class="container">
         <div class="row align-items-center justify-content-between">
             <div class="logo-block col-auto">
-                
+                <div class="site-logo">
+                    <a href="/" data-magic-cursor="link">
+                        <img class="light" src="{{ asset('front-office/img/logo-light.png') }}" alt="LevelUp">
+                        <img class="dark" src="{{ asset('front-office/img/logo-dark.png') }}" alt="LevelUp">
+                    </a>
+                </div>
             </div>
             <div class="right col-auto">
                 <nav class="navigation visible_menu">
@@ -141,30 +148,32 @@
                             </a>
                         </li>
                         <li id="menu-item-52" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-52">
-                            <a href="#">
+                            <a href="/store">
                                 <span>
                                     Shop
                                 </span>
                             </a>
                             <ul class="sub-menu">
                                 <li id="menu-item-51" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51">
-                                    <a href="#">
+                                    <a href="/store">
                                         <span>
                                             Product List
                                         </span>
                                     </a>
                                 </li>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
-                                    <a href="#">
+                                    <a href="/panier">
                                         <span>
                                             Cart
                                         </span>
                                     </a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                            <a href="#">
+                            <a href="/reclamation/new">
                                 <span>
                                     Contact Us
                                 </span>
@@ -217,13 +226,15 @@
                         <div class="dropdown-menu" style="background-color: #1A1A1A; right: 0px;">
                             <a class="dropdown-item white" href="{{ path('new_user_show', {'id': app.user.id}) }}">
                                 Profile
-                            </span>
+                            </a>
                             <a class="dropdown-item white" href="{{ path('new_user_edit', {'id': app.user.id}) }}">
                                 Settings
                             </a>
-                            <a class="dropdown-item white" href="{{ path('dashboard') }}">
-                                Dashboard
-                            </a>
+                            {% if app.user.departement != NULL %}
+                                <a class="dropdown-item white" href="{{ path('dashboard') }}">
+                                    Dashboard
+                                </a>
+                            {% endif %}
                             <div class="dropdown-divider white"></div>
                             <a class="dropdown-item white" href="{{ path('logout') }}">
                                 Logout
@@ -237,32 +248,18 @@
                         </span>
                     </a>
                 {% endif %}
-                <div class="header-search-button">
-                    <i class="base-icon-magnifying-glass"></i>
-                </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div class="header-minicart woocommerce header-minicart-plaxer">
                     <div class="hm-count">
-                        <i class="base-icon-shopping-cart"></i>
+                        <a href="/panier"><i class="base-icon-shopping-cart white"></i></a>
                     </div>
                 </div>
+                {% endif %}
             </div>
            
         </div>
     </div>
 </header>
-<div class="search-popup">
-    <div class="close base-icon-cross"></div>
-    <div class="form-block">
-        <form role="search" method="get" class="searchform" action="https://promo-theme.com/plaxer/">
-            <div>
-                <input type="text" value="" placeholder="Type and hit enter" name="s" class="input" />
-            </div>
-            <button type="submit" class="searchsubmit" value="">
-                <i class="base-icon-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
-</div>
 <div class="sidebar-content-block">
     <div class="close base-icon-cross"></div>
     <div class="wrap scrollbar-inner">

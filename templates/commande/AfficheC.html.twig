@@ -1,10 +1,6 @@
-{% extends "base-back.html.twig" %}
+{% extends "base-dashboard.html.twig" %}
 
 {% block content %}
-    <div id="content" class="app-content">
-
-        <div class="row">
-
 
             <div class="card mb-3">
 
@@ -17,29 +13,7 @@
 
 
 
-                    <div class="ratio ratio-21x9 mb-3">
-                        <div class="form-group mb-3">
-
-                            <div class="input-group mb-4">
-                                <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter orders &nbsp;</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div role="separator" class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                                <div class="flex-fill position-relative">
-                                    <div class="input-group">
-                                        <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
-                                            <i class="fa fa-search opacity-5"></i>
-                                        </div>
-                                        <input type="text" class="form-control ps-35px" placeholder="Search orders" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-hover text-nowrap">
+                                <table id="datatableDefault" class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
                                         <th class="pt-0 pb-2">#</th>
@@ -47,7 +21,8 @@
                                         <th class="pt-0 pb-2">Quantite</th>
                                         <th class="pt-0 pb-2">Prix Total</th>
                                         <th class="pt-0 pb-2">Liste Produits</th>
-                                        <th class="pt-0 pb-2">Delete</th>
+                                        <th class="pt-0 pb-2">Ordered By</th>
+                                        <th class="pt-0 pb-2">Actions</th>
                                     </tr>
                                     </thead>
                                     {% if commande %}
@@ -58,9 +33,10 @@
                                                 <td class="align-middle">{{ cmd.date|date('d-m-Y') }}</td>
                                                 <td class="align-middle">{{ cmd.quantite }}</td>
                                                 <td class="align-middle">{{ cmd.prixtotal }}</td>
-                                                <td class="align-middle">{% for ligne in cmd.ligneCommandes %}{{ ligne.produit.nom }} / {% endfor %}</td>
+                                                <td class="align-middle">{% for ligne in cmd.ligneCommandes %}{{ ligne.produit.nom }} ({{ ligne.quantite }}) | {% endfor %}</td>
+                                                <td class="align-middle">{{ cmd.user.nom }} {{ cmd.user.prenom }}</td>
                                                 <td>
-                                                    <a href="/SupprimerCommande/{{ cmd.id }}"  class="btn btn-dark" onclick="return confirm('Etes-vous sûr de supprimer cette commande?');">Delete</a>
+                                                    <a href="/SupprimerCommande/{{ cmd.id }}"  class="bi bi-trash white" onclick="return confirm('Etes-vous sûr de supprimer cette commande?');"></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -72,10 +48,6 @@
                             </div>
 
                         </div>
-                    </div>
-
-                </div>
-
 
 
                 <div class="card-arrow">
@@ -90,7 +62,4 @@
         </div>
 
 
-    </div>
-
-    </div>
 {% endblock %}
