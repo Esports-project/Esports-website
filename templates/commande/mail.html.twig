@@ -8,34 +8,15 @@
     <title>Invoice</title>
 </head>
 <body>
+<h6>Invoice #{{ commande.id }}</h6>
+<p>Issued: {{ commande.date|date('Y-m-d-h-m') }}</p></br>
+{% for ligne in commande.ligneCommandes %}
+{% set i = 0 %}
+{% set i = ligne.produit.price * ligne.quantite %}
+{% endfor %}
+
 <h2>Dear {{ app.user.nom }} {{ app.user.prenom }}, Thank You For Shopping With LevelUp !</h2>
-<h4>You can find here your invoice !</h4>
-<table>
-    <tr>
-        <td ><h2>Item</h2></td>
-        <td ><h2>Quantity</h2></td>
-        <td ><h2>Unitary Price</h2></td>
-        <td ><h2>Total</h2></td>
-    </tr>
-    {% for ligne in commande.ligneCommandes %}
-        <tr >
-            <td><h2>{{ ligne.produit.nom }}</h2></td>
-            <td><h2>{{ ligne.quantite }}</h2></td>
-            <td><h2>{{ ligne.produit.price }}</h2></td>
-            {% set i = 0 %}
-            {% set i = ligne.produit.price * ligne.quantite %}
-            <t><h2>{{ i }}</h2></t>
-        </tr>
-    {% endfor %}
-    <tr>
-        <td></td>
-        <td></td>
-        <td><h2>Total</h2></td>
-        <td><h2>{{ commande.getPrixTotal() }}</h2></td>
-    </tr>
-
-</table>
-
-
+<h4>This Email is a confirmation that you ordered a total of <b>{{ commande.getQuantite() }}</b> products priced at <b>{{ commande.getPrixTotal() }}</b> </h4>
+<h2>We hope to see you again soon {{ app.user.nom }} !</h2>
 </body>
 </html>

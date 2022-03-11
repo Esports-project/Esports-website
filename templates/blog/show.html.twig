@@ -14,7 +14,7 @@
 							<img src="{{ asset('front-office/img/') }}{{ blog.image }}" style="width: 100%"></span>
 						</div>
 						<div class="post-top">
-							<div class="date">{{ blog.postDate ? blog.postDate|date('Y-m-d') : '' }}</div>
+							<div class="date">{{ blog.postDate ? blog.postDate| ago }}</div>
 						</div>
 						<div class="heading-block">
 							<h1 class="h h4">{{blog.titre}}</h1>
@@ -57,8 +57,8 @@
 									<div class="image"><img src="https://secure.gravatar.com/avatar/61819f6a0a17a0734f903ed6bc8124d1?s=300&amp;d=mm&amp;r=g" width="300" height="300" alt="Avatar" class="avatar avatar-300wp-user-avatar wp-user-avatar-300 alignnone photo avatar-default"/></div>
 									<div class="area">
 										<div class="top">
-											<div class="name" style="margin-bottom: 0px;">{{ commentaire.user.nom }}</div>
-											<div class="date" style="position: absolute; right: 0;"> {{ commentaire.date ? commentaire.date|date('Y-m-d H:i:s') : '' }} </div>
+											<div class="name" style="margin-bottom: 0px;">{{ commentaire.user.username }}</div>
+											<div class="date" style="position: absolute; right: 0;"> {{ commentaire.date ? commentaire.date | ago }} </div>
 										</div>
 										<div class="content">
 											{{ commentaire.contenu }}

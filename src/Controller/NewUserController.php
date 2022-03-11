@@ -149,7 +149,7 @@ class NewUserController extends AbstractController
             $entityManager->persist($user);
             $user->setPassword(
             $passwordEncoder->encodePassword($user, $user->getPassword()));
-            if ($user->getDepartement() != 14) {
+            if ($user->getDepartement() != NULL) {
                 $user->setRoles(['ROLE_ADMIN']);
             }
             $entityManager->persist($user);

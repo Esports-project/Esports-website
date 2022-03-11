@@ -305,14 +305,14 @@
                         {% endfor %}
                         Showing all {{ i }} results
                     </p>
-                    <form class="woocommerce-ordering" method="get">
-                        <select name="orderby" class="orderby" aria-label="Shop order">
-                            <option value="/store"  selected='selected'>Default sorting</option>
-                            <option value="date" >Sort by latest</option>
-                            <option value="price" >Sort by price: low to high</option>
-                            <option value="price-desc" >Sort by price: high to low</option>
+                    <form class="woocommerce-ordering">
+                        <select name="orderby" onchange="window.location.href=this.value;">
+                            <option value="http://localhost:8000/store"  selected='selected'>Default sorting</option>
+                            <option value="http://localhost:8000/QuantityAsc" >Sort by Quantity: low to high</option>
+                            <option value="http://localhost:8000/QuantityDesc" >Sort by Quantity: high to low</option>
+                            <option value="http://localhost:8000/store/TriAsc">Sort by price: low to high</option>
+                            <option value="http://localhost:8000/store/TriDesc">Sort by price: high to low</option>
                         </select>
-                        <input type="hidden" name="paged" value="1" />
                     </form>
                 </div>
             </div>
