@@ -121,7 +121,7 @@ class FaqController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_faq_delete", methods={"POST"})
+     * @Route("/faq/delete/{id}", name="app_faq_delete", methods={"POST"})
      */
     public function delete(Request $request, Faq $faq, FaqRepository $faqRepository): Response
     {
@@ -129,6 +129,6 @@ class FaqController extends AbstractController
             $faqRepository->remove($faq);
         }
 
-        return $this->redirectToRoute('app_faq_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('faq_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }
