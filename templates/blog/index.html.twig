@@ -14,46 +14,6 @@
                         <div class="vc_column-inner ">
                             <div class="wpb_wrapper">
                                 <div class="blog-block filter-block blog-5df871567405c">
-                                    <div class="filter-buttons tal">
-                                        <div class="wrap">
-                                            <button class="button current" data-filter="*">
-                                                <span>
-                                                    All
-                                                                                                                
-                                                </span>
-                                            </button>
-                                            <button class="button" data-filter=".category-dota-2">
-                                                <span>
-                                                    Dota 2
-                                                                                                                
-                                                </span>
-                                            </button>
-                                            <button class="button" data-filter=".category-fortnite">
-                                                <span>
-                                                    Fortnite
-                                                                                                                
-                                                </span>
-                                            </button>
-                                            <button class="button" data-filter=".category-gs-go">
-                                                <span>
-                                                    GS GO
-                                                                                                                
-                                                </span>
-                                            </button>
-                                            <button class="button" data-filter=".category-pubg">
-                                                <span>
-                                                    PUBG
-                                                                                                                
-                                                </span>
-                                            </button>
-                                            <button class="button" data-filter=".category-streams">
-                                                <span>
-                                                    Streams
-                                                                                                                
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>
                                     <div class="blog-items row isotope blog-grid load-wrap" data-rows="1">
                                         <div class="grid-sizer col-1"></div>
                                         {% for blog in blogs %}
@@ -63,17 +23,17 @@
                                                         <a href="{{ path('blog_show', {'id': blog.id}) }}" style="background-image: url({{ asset('front-office/img/') }}{{ blog.image }})"></a>
                                                     </div>
                                                     <div class="date">
-                                                        {{ blog.postDate ? blog.postDate|date('Y-m-d H:i:s') : '' }}
+                                                        {{ blog.postDate ? blog.postDate| ago }}
                                                                                                                     
                                                     </div>
                                                     <h6 class="title">
-                                                        <a href="../../gs-go/streamlining-the-path-to-conversion/index.html">
-                                                            {{ blog.contenu }}
+                                                        <a href="{{ path('blog_show', {'id': blog.id}) }}">
+                                                            {{ blog.titre }}
                                                                                                                             
                                                         </a>
                                                     </h6>
                                                     <div class="button">
-                                                        <a class="button-style2" href="../../gs-go/streamlining-the-path-to-conversion/index.html">
+                                                        <a class="button-style2" href="{{ path('blog_show', {'id': blog.id}) }}">
                                                             <span>
                                                                 Read More
                                                                                                                                     
