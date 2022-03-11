@@ -1,9 +1,6 @@
-{% extends "base.html.twig" %}
+{% extends "base-dashboard.html.twig" %}
 
 {% block content %}
-    <div id="content" class="app-content">
-
-        <div class="row">
 
 
             <div class="card mb-3">
@@ -23,9 +20,6 @@
 
 
 
-                    <div class="ratio ratio-21x9 mb-3">
-                        <div class="form-group mb-3">
-                            <div class="table-responsive">
                                 <table id="datatableDefault" class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
@@ -35,8 +29,7 @@
                                         <th class="pt-0 pb-2">Quantite</th>
                                         <th class="pt-0 pb-2">Publie</th>
                                         <th class="pt-0 pb-2">Details</th>
-                                        <th class="pt-0 pb-2">Edit</th>
-                                        <th class="pt-0 pb-2">Delete</th>
+                                        <th class="pt-0 pb-2">Actions</th>
                                     </tr>
                                     </thead>
                                     {% if produits %}
@@ -57,18 +50,26 @@
                                         <td class="align-middle">{{ produit.price }}</td>
                                         <td class="align-middle">{{ produit.quantity }}</td>
                                         {% if produit.active == true %}
-                                            <td class="align-middle">Published</td>
+                                            <td>
+                                                <span class="badge d-block bg-theme bg-opacity-50 rounded-0 pt-5px w-70px" style="min-height: 18px">
+                                                    Published
+                                                                                            
+                                                </span>
+                                            </td>
                                         {% else %}
-                                            <td class="align-middle">Unpublished</td>
+                                        <td>
+                                            <span class="badge d-block bg-red bg-opacity-50 rounded-0 pt-5px w-80px" style="min-height: 18px">
+                                                Unpublished
+                                                                                        
+                                            </span>
+                                        </td>
                                         {% endif %}
                                         <td>
                                             <a href="/store/produit/{{ produit.id }}" class="btn btn-dark">Détails</a>
                                         </td>
                                         <td>
-                                            <a href="/dashboard/produit/edit/{{ produit.id }}" class="btn btn-dark">Edit</a>
-                                        </td>
-                                        <td>
-                                            <a href="/dashboard/produit/delete/{{ produit.id }}"  class="btn btn-dark" onclick="return confirm('Etes-vous sûr de supprimer ce Produit?');">Delete</a>
+                                            <a href="/dashboard/produit/edit/{{ produit.id }}" class="bi bi-pencil white"></a>
+                                            <a href="/dashboard/produit/delete/{{ produit.id }}"  class="bi bi-trash white" onclick="return confirm('Etes-vous sûr de supprimer ce Produit?');"></a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -77,10 +78,6 @@
                                         <p>Aucun produit</p>
                                     {% endif %}
                                 </table>
-                            </div>
-
-                        </div>
-                    </div>
 
                 </div>
 
@@ -98,7 +95,4 @@
         </div>
 
 
-    </div>
-
-    </div>
 {% endblock %}
