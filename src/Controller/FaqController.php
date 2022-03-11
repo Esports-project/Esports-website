@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Faq;
+use App\Repository\FaqRepository;
+use App\Repository\CategoriesRepository;
+
 use App\Entity\Reclamation;
 use App\Repository\ReclamationRepository;
 use App\Form\ReclamationType;
 use App\Form\FaqType;
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Repository\FaqRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +22,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FaqController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="faq_index")
+     */
+    public function show(FaqRepository $faqRepository, CategoriesRepository $categoryRepository): Response
+    {
+        return $this->render('faq/index2.html.twig', [
+            'faqs' => $faqRepository->orderByCategory(),
+            'categ' => $categoryRepository->findAll(),
+        ]);
+    }
+
     /**
      * @Route("/{id}", name="app_faq_index", methods={"GET", "POST"})
      */
@@ -75,15 +89,6 @@ class FaqController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_faq_show", methods={"GET"})
-     */
-    public function show(Faq $faq): Response
-    {
-        return $this->render('faq/show.html.twig', [
-            'faq' => $faq,
-        ]);
-    }
 
     /**
      * @Route("/{id}/edit", name="app_faq_edit", methods={"GET", "POST"})

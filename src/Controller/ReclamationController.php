@@ -125,15 +125,40 @@ class ReclamationController extends AbstractController
      /**
      * @Route("/{id}/reply", name="reclamation_reply", methods={"GET", "POST"})
      */
-    public function reply(Request $request, UserRepository $userRepository ,Reclamation $reclamation ,EntityManagerInterface $entityManager): Response
+    public function reply(Request $request, UserRepository $userRepository ,Reclamation $reclamation ,EntityManagerInterface $entityManager, \Swift_Mailer $mailer): Response
     {
         $faq = new Faq();
         $faq->setCategory($reclamation->getCategory());
         $form = $this->createForm(FaqType::class, $faq);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setStatus(1);
             $entityManager->persist($faq);
             $entityManager->flush();
+            
+
+            $message = (new \Swift_Message('Reclamation treated'))
+            ->setFrom('runtimeerrorlevelup@gmail.com')
+            ->setTo($reclamation->getEmail())
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'reclamation/mail.html.twig', [
+                    'faq' => $faq
+                ]),
+                'text/html'
+            )
+            // you can remove the following code if you don't define a text version for your emails
+            ->addPart(
+                $this->renderView('reclamation/mail.html.twig', [
+                    'faq' => $faq
+                ]),
+                'text/plain'
+            );
+
+        $mailer->send($message);
+            
+
             return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -144,5 +169,7 @@ class ReclamationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    
   
 }   

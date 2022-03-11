@@ -77,5 +77,14 @@ class FaqRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function orderByCategory()
+    {
+        return $this->createQueryBuilder('f')
+            ->orderBy('f.category', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 }
