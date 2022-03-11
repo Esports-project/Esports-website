@@ -33,6 +33,62 @@ class ProduitController extends AbstractController
     }
 
     /**
+     * @Route("/store/TriAsc", name="storeTriCroi")
+     */
+    public function triPrixCroissant(Request $request, PaginatorInterface $paginator)
+    {
+        $donnees = $this->getDoctrine()->getRepository(Produit::class)->findBy(['active' => 'true'], array('price' => 'ASC'));
+        $produits = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            4
+        );
+        return $this->render('produit/index.html.twig', ['produits' => $produits]);
+    }
+
+    /**
+     * @Route("/store/TriDesc", name="storeTriDecroi")
+     */
+    public function triPrixDecroissant(Request $request, PaginatorInterface $paginator)
+    {
+        $donnees = $this->getDoctrine()->getRepository(Produit::class)->findBy(['active' => 'true'], array('price' => 'DESC'));
+        $produits = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            4
+        );
+        return $this->render('produit/index.html.twig', ['produits' => $produits]);
+    }
+
+    /**
+     * @Route("/store/QuantityAsc", name="QuantityAsc")
+     */
+    public function QuantityAsc(Request $request, PaginatorInterface $paginator)
+    {
+        $donnees = $this->getDoctrine()->getRepository(Produit::class)->findBy(['active' => 'true'], array('quantity' => 'ASC'));
+        $produits = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            4
+        );
+        return $this->render('produit/index.html.twig', ['produits' => $produits]);
+    }
+
+    /**
+     * @Route("/store/QuantityDesc", name="QuantityDesc")
+     */
+    public function QuantityDesc(Request $request, PaginatorInterface $paginator)
+    {
+        $donnees = $this->getDoctrine()->getRepository(Produit::class)->findBy(['active' => 'true'], array('quantity' => 'DESC'));
+        $produits = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            4
+        );
+        return $this->render('produit/index.html.twig', ['produits' => $produits]);
+    }
+
+    /**
      * @Route("/dashboard/produits", name="all_produit")
      */
     public function showAll(): Response
