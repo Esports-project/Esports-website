@@ -223,9 +223,11 @@
                             <a class="dropdown-item white" href="{{ path('new_user_edit', {'id': app.user.id}) }}">
                                 Settings
                             </a>
-                            <a class="dropdown-item white" href="{{ path('dashboard') }}">
-                                Dashboard
-                            </a>
+                            {% if app.user.departement != NULL %}
+                                <a class="dropdown-item white" href="{{ path('dashboard') }}">
+                                    Dashboard
+                                </a>
+                            {% endif %}
                             <div class="dropdown-divider white"></div>
                             <a class="dropdown-item white" href="{{ path('logout') }}">
                                 Logout

@@ -75,6 +75,6 @@ class Classement
 
     public function __toString()
     {
-        return (string) $this->getEvenement();
+        return (string) $this->getRang();
     }
 }
