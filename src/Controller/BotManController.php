@@ -31,6 +31,22 @@ class BotManController extends AbstractController
             $bot->reply('Hello!');
         });
 
+        $botman->hears('help', function (BotMan $bot) {
+            $bot->reply('Try saying: what can I do here? Or where can I buy stuff?');
+        });
+
+        $botman->hears('what can I do here?', function (BotMan $bot) {
+            $bot->reply('This is a gaming platform that allows you to stay upto date everyday with new games');
+        });
+
+        $botman->hears('where can I buy stuff?', function (BotMan $bot) {
+            $bot->reply('Go visit the shop, there is a lot of cool stuff you can buy');
+        });
+
+        $botman->hears('Chkawlek monsieur', function (BotMan $bot) {
+            $bot->reply('Borjlouleya t3ebna barcha, nchallah taatina 20');
+        });
+
         // Set a fallback
         $botman->fallback(function (BotMan $bot) {
             $bot->reply('Sorry, I did not understand.');

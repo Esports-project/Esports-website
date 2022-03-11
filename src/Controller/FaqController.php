@@ -71,7 +71,7 @@ class FaqController extends AbstractController
             $entityManager->flush();   
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
-
+       
         return $this->render('faq/index.html.twig', [
             'faqs' => $faqRepository->findByID($id),
             'reclamation'=> $reclamation,
