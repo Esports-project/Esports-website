@@ -36,7 +36,7 @@ class CommandeController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/AfficheCommande", name="AfficheCommande")
+     * @Route("/dashboard/orders", name="AfficheCommande")
      */
     public function AfficheCommande(){
         $repository=$this->getDoctrine()->getRepository(Commande::class);

@@ -122,21 +122,21 @@
                     <nav class="navigation visible_menu">
                         <ul id="menu-navigation" class="menu">
                             <li id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-40">
-                                <a href="/">
+                                <a href="/home">
                                 <span>
                                     Home
                                 </span>
                                 </a>
                             </li>
                             <li id="menu-item-53" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-53">
-                                <a href="/">
+                                <a href="/blogs">
                                 <span>
-                                    Blog
+                                    Blogs
                                 </span>
                                 </a>
                             </li>
                             <li id="menu-item-56" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-56">
-                                <a href="#">
+                                <a href="/events">
                                 <span>
                                     Events
                                 </span>
@@ -156,17 +156,19 @@
                                         </span>
                                         </a>
                                     </li>
-                                    <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
-                                        <a href="/panier">
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
+                                            <a href="/panier">
                                         <span>
                                             Cart
                                         </span>
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                                <a href="/reclamation/new">
+                                <a href="#">
                                 <span>
                                     Contact Us
                                 </span>
@@ -197,7 +199,7 @@
                             </li>
                         </ul>
                     </nav>
-                    {% if app.user %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <div class="widget-user-list-item">
                             <a href="#" class="widget-user-list-link">
                                 <img src="https://media.geeksforgeeks.org/auth/avatar.png" alt="" style="height: 30px; width: 30px;" />
@@ -238,26 +240,16 @@
                             Login
                         </span>
                         </a>
-                        <a class="button-style2" href="{{ path('new_user_new') }}">
-                        <span>
-                            Register
-                        </span>
-                        </a>
                     {% endif %}
-                    <div class="header-search-button">
-                        <i class="base-icon-magnifying-glass"></i>
-                    </div>
-                    <div class="header-minicart woocommerce header-minicart-plaxer">
-                        <div class="hm-count">
-                            <a href="/panier"><i class="base-icon-shopping-cart"></i></a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="header-minicart woocommerce header-minicart-plaxer">
+                            <div class="hm-count">
+                                <a href="/panier"><i class="base-icon-shopping-cart"></i></a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="sidebar-butter" data-magic-cursor="link-small">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+
             </div>
         </div>
     </header>
@@ -379,22 +371,15 @@
                 </div>
 
                 <div class="site-sidebar col-12 col-md-4"><div class="wrap"><div id="about_me-3" class="widget widget_about_me">
-                            <h6 class="widget-title">About Us</h6>          <img class="image" src="{{ asset('front-office/img/img42.jpg')}}" alt="About Me" />
+                            <h6 class="widget-title">About Our Store</h6>          <img class="image" src="{{ asset('front-office/img/shopgaming.png')}}" alt="About Me" />
                             <div class="desc">Through our best techniques and bespoke growth plans we assess digital problems and put in place strategies that lead to commercial success. </div>
                             <div class="social-links">
-                                <span class="label">Follow Us:</span>
-                                <a href="#" target="_self"><i class="base-icon-instagram-social-network-logo-of-photo-camera"></i></a><a href="#" target="_self"><i class="fab fa-facebook-f"></i></a><a href="#" target="_self"><i class="fab fa-twitter"></i></a>      </div>
 
                         </div><div id="search-4" class="widget widget_search"><form role="search" method="get" class="searchform" action="#" >
                                 <div><input type="text" value="" placeholder="Type and hit enter" name="s" class="input" /></div>
                                 <button type="submit" class="searchsubmit" value=""><i class="base-icon-magnifying-glass"></i></button>
                             </form>
                         </div>
-                        <div id="tag_cloud-3" class="widget widget_tag_cloud"><h6 class="widget-title">Tags</h6><div class="tagcloud"><a href="../category/dota-2/index.html" class="tag-cloud-link tag-link-19 tag-link-position-1" style="font-size: 10.8pt;" aria-label="Dota 2 (3 items)">Dota 2</a>
-                                <a href="../category/fortnite/index.html" class="tag-cloud-link tag-link-21 tag-link-position-2" style="font-size: 13.133333333333pt;" aria-label="Fortnite (4 items)">Fortnite</a>
-                                <a href="../category/gs-go/index.html" class="tag-cloud-link tag-link-17 tag-link-position-3" style="font-size: 10.8pt;" aria-label="GS GO (3 items)">GS GO</a>
-                                <a href="../category/pubg/index.html" class="tag-cloud-link tag-link-18 tag-link-position-4" style="font-size: 22pt;" aria-label="PUBG (11 items)">PUBG</a>
-                                <a href="../category/streams/index.html" class="tag-cloud-link tag-link-20 tag-link-position-5" style="font-size: 8pt;" aria-label="Streams (2 items)">Streams</a></div>
                     </div>
                 </div>
             </div>

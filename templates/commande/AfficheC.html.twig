@@ -1,10 +1,6 @@
-{% extends "base.html.twig" %}
+{% extends "base-dashboard.html.twig" %}
 
 {% block content %}
-    <div id="content" class="app-content">
-
-        <div class="row">
-
 
             <div class="card mb-3">
 
@@ -17,9 +13,6 @@
 
 
 
-                    <div class="ratio ratio-21x9 mb-3">
-                        <div class="form-group mb-3">
-                            <div class="table-responsive">
                                 <table id="datatableDefault" class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
@@ -28,7 +21,8 @@
                                         <th class="pt-0 pb-2">Quantite</th>
                                         <th class="pt-0 pb-2">Prix Total</th>
                                         <th class="pt-0 pb-2">Liste Produits</th>
-                                        <th class="pt-0 pb-2">Delete</th>
+                                        <th class="pt-0 pb-2">Ordered By</th>
+                                        <th class="pt-0 pb-2">Actions</th>
                                     </tr>
                                     </thead>
                                     {% if commande %}
@@ -39,9 +33,10 @@
                                                 <td class="align-middle">{{ cmd.date|date('d-m-Y') }}</td>
                                                 <td class="align-middle">{{ cmd.quantite }}</td>
                                                 <td class="align-middle">{{ cmd.prixtotal }}</td>
-                                                <td class="align-middle">{% for ligne in cmd.ligneCommandes %}{{ ligne.produit.nom }} / {% endfor %}</td>
+                                                <td class="align-middle">{% for ligne in cmd.ligneCommandes %}{{ ligne.produit.nom }} ({{ ligne.quantite }}) | {% endfor %}</td>
+                                                <td class="align-middle">{{ cmd.user.nom }} {{ cmd.user.prenom }}</td>
                                                 <td>
-                                                    <a href="/SupprimerCommande/{{ cmd.id }}"  class="btn btn-dark" onclick="return confirm('Etes-vous sûr de supprimer cette commande?');">Delete</a>
+                                                    <a href="/SupprimerCommande/{{ cmd.id }}"  class="bi bi-trash white" onclick="return confirm('Etes-vous sûr de supprimer cette commande?');"></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -53,10 +48,6 @@
                             </div>
 
                         </div>
-                    </div>
-
-                </div>
-
 
 
                 <div class="card-arrow">
@@ -71,7 +62,4 @@
         </div>
 
 
-    </div>
-
-    </div>
 {% endblock %}

@@ -118,21 +118,21 @@
                     <nav class="navigation visible_menu">
                         <ul id="menu-navigation" class="menu">
                             <li id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-40">
-                                <a href="/">
+                                <a href="/home">
                                 <span>
                                     Home
                                 </span>
                                 </a>
                             </li>
                             <li id="menu-item-53" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-53">
-                                <a href="/">
+                                <a href="/blogs">
                                 <span>
-                                    Blog
+                                    Blogs
                                 </span>
                                 </a>
                             </li>
                             <li id="menu-item-56" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-56">
-                                <a href="#">
+                                <a href="/events">
                                 <span>
                                     Events
                                 </span>
@@ -152,17 +152,19 @@
                                         </span>
                                         </a>
                                     </li>
-                                    <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
-                                        <a href="/panier">
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44">
+                                            <a href="/cart">
                                         <span>
                                             Cart
                                         </span>
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                                <a href="/reclamation/new">
+                                <a href="#">
                                 <span>
                                     Contact Us
                                 </span>
@@ -193,7 +195,7 @@
                             </li>
                         </ul>
                     </nav>
-                    {% if app.user %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <div class="widget-user-list-item">
                             <a href="#" class="widget-user-list-link">
                                 <img src="https://media.geeksforgeeks.org/auth/avatar.png" alt="" style="height: 30px; width: 30px;" />
@@ -234,26 +236,16 @@
                             Login
                         </span>
                         </a>
-                        <a class="button-style2" href="{{ path('new_user_new') }}">
-                        <span>
-                            Register
-                        </span>
-                        </a>
                     {% endif %}
-                    <div class="header-search-button">
-                        <i class="base-icon-magnifying-glass"></i>
-                    </div>
-                    <div class="header-minicart woocommerce header-minicart-plaxer">
-                        <div class="hm-count">
-                            <a href="/panier"><i class="base-icon-shopping-cart"></i></a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="header-minicart woocommerce header-minicart-plaxer">
+                            <div class="hm-count">
+                                <a href="/panier"><i class="base-icon-shopping-cart"></i></a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="sidebar-butter" data-magic-cursor="link-small">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+
             </div>
         </div>
     </header>
