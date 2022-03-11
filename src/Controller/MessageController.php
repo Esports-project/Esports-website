@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/messages")
+ * @Route("/")
  */
 class MessageController extends AbstractController
 {
     /**
-     * @Route("/messages", name="app_message_dashboard", methods={"GET"})
+     * @Route("/dashboard/messages", name="app_message_dashboard", methods={"GET"})
      */
     public function dashboard(MessageRepository $messageRepository): Response
     {
@@ -32,7 +32,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/", name="app_message_index", methods={"GET"})
+     * @Route("/message", name="app_message_index", methods={"GET"})
      */
     public function index(MessageRepository $messageRepository): Response
     {
@@ -45,7 +45,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_message_new", methods={"GET", "POST"})
+     * @Route("/message/new", name="app_message_new", methods={"GET", "POST"})
      */
     public function new(Request $request, MessageRepository $messageRepository): Response
     {
@@ -101,7 +101,7 @@ class MessageController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="app_message_edit", methods={"GET", "POST"})
+     * @Route("/message/{id}/edit", name="app_message_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Message $message, UserRepository $userRepository , MessageRepository $messageRepository): Response
     {
@@ -136,7 +136,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_message_delete", methods={"POST"})
+     * @Route("/message/{id}", name="app_message_delete", methods={"POST"})
      */
     public function delete(Request $request, Message $message, MessageRepository $messageRepository): Response
     {

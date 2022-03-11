@@ -17,12 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * @Route("/reclamation")
+ * @Route("/")
  */
 class ReclamationController extends AbstractController
 {
     /**
-     * @Route("/", name="reclamation_index", methods={"GET"})
+     * @Route("/dashboard/reclamations", name="reclamation_index", methods={"GET"})
      */
     public function index(ReclamationRepository $reclamationRepository, CategoriesRepository $categoriesRepository): Response
     {
@@ -42,7 +42,7 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="reclamation_new", methods={"GET", "POST"})
+     * @Route("/reclamation/new", name="reclamation_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager, ReclamationRepository $reclamationRepository): Response
     {
@@ -77,18 +77,9 @@ class ReclamationController extends AbstractController
        
     }
 
-    /**
-     * @Route("/{id}", name="reclamation_show", methods={"GET"})
-     */
-    public function show(Reclamation $reclamation): Response
-    {
-        return $this->render('reclamation/show.html.twig', [
-            'reclamation' => $reclamation,
-        ]);
-    }
 
     /**
-     * @Route("/{id}/edit", name="reclamation_edit", methods={"GET", "POST"})
+     * @Route("/reclamation/{id}/edit", name="reclamation_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, UserRepository $userRepository ,Reclamation $reclamation, CategoriesRepository $categoriesRepository ,EntityManagerInterface $entityManager): Response
     {
@@ -110,7 +101,7 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="reclamation_delete", methods={"POST"})
+     * @Route("/reclamation/{id}", name="reclamation_delete", methods={"POST"})
      */
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {

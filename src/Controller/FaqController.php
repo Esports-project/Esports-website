@@ -18,13 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/faq")
+ * @Route("/")
  */
 class FaqController extends AbstractController
 {
 
     /**
-     * @Route("/", name="faq_index")
+     * @Route("/faq", name="faq_index")
      */
     public function show(FaqRepository $faqRepository, CategoriesRepository $categoryRepository): Response
     {
@@ -35,7 +35,18 @@ class FaqController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_faq_index", methods={"GET", "POST"})
+     * @Route("/dashboard/faq", name="faq_dashboard")
+     */
+    public function dashboardfaq(FaqRepository $faqRepository, CategoriesRepository $categoryRepository): Response
+    {
+        return $this->render('faq/index3.html.twig', [
+            'faqs' => $faqRepository->orderByCategory(),
+            'categ' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/faq/{id}", name="app_faq_index", methods={"GET", "POST"})
      */
     public function index(Int $id, ReclamationRepository $reclamationRepository, FaqRepository $faqRepository,  EntityManagerInterface $entityManager , Request $request): Response
     {
@@ -70,7 +81,7 @@ class FaqController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_faq_new", methods={"GET", "POST"})
+     * @Route("/faq/new", name="app_faq_new", methods={"GET", "POST"})
      */
     public function new(Request $request, FaqRepository $faqRepository): Response
     {
@@ -91,7 +102,7 @@ class FaqController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="app_faq_edit", methods={"GET", "POST"})
+     * @Route("/faq/{id}/edit", name="app_faq_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Faq $faq, FaqRepository $faqRepository): Response
     {
