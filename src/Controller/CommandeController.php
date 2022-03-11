@@ -81,7 +81,7 @@ class CommandeController extends AbstractController
             $nouvLigne->setQuantite($prodsArr[$i]["quantity"]);
             $nouvLigne->setCommande($commande);
             $em->persist($nouvLigne);
-            $prodsArr[$i]["product"]->setQuantity($prodsArr[$i]["product"]->getQuantity() - 1);
+            $prodsArr[$i]["product"]->setQuantity($prodsArr[$i]["product"]->getQuantity() - $commande->getQuantite());
         }
 
 

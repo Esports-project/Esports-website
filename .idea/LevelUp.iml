@@ -169,8 +169,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/endroid/qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dasprid/enum" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bacon/bacon-qr-code" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/knplabs/knp-time-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vangrg/profanity-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/knplabs/knp-time-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
