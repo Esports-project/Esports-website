@@ -253,4 +253,10 @@ class Evenement
         unset($this->file);
     }
 
+    public function __toString()
+    {
+        return (string) $this->getNom();
+    }
+    
+
 }
