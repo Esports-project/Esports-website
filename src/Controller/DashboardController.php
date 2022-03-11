@@ -19,7 +19,8 @@ class DashboardController extends AbstractController
     {
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            'users' => $userRepository->findBy([ 'banned' => '1']),
+            'users' => $userRepository->findBy([ 'banned' => '0']),
+            'bannedusers' => $userRepository->findBy([ 'banned' => '1']),
             'commandes' => $commandeRepository->findAll(),
             'produits' => $produitRepository->findBy(['active' => 'true']),
         ]);

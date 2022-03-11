@@ -28,12 +28,8 @@
                         33.3% more than last week
                                                                 
                         <br/>
-                        <i class="far fa-user fa-fw me-1"></i>
-                        45.5% new visitors
-                                                                
-                        <br/>
                         <i class="far fa-times-circle fa-fw me-1"></i>
-                        3.25% bounce rate
+                        {{ ( bannedusers | length / users | length  ) * 100 }} % Banned user
                                                                 
                                                             
                     </div>
@@ -80,7 +76,7 @@
                                                                 
                         <br/>
                         <i class="fa fa-dollar-sign fa-fw me-1"></i>
-                        {{ 6.21% }} Average Price
+                         6.21% Average Price
 
                                                             
                     </div>
