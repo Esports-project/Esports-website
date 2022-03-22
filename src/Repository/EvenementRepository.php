@@ -47,4 +47,18 @@ class EvenementRepository extends ServiceEntityRepository
         ;
     }
     */
+<<<<<<< Updated upstream
+=======
+    
+    /**
+     * @return Evenement[]
+     */
+    public function findObject($value)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.date', 'DSC')
+            ;
+        return $qb->getQuery()->execute();
+    }
+>>>>>>> Stashed changes
 }

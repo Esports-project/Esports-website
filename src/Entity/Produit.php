@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -21,57 +22,77 @@ class Produit
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="float")
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $price;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+<<<<<<< Updated upstream
      * @Assert\NotEqualTo(
      * value = 0,
      * message = "Le prix d’un produit ne doit pas être égal à 0 "
      * )
+=======
+     * @Groups("post:read")
+>>>>>>> Stashed changes
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $image;
 
     /**
      * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
      * @var File
+     * @Groups("post:read")
      */
     private $imageFile;
 
 
     /**
      * @ORM\Column(type="float", nullable=true)
+<<<<<<< Updated upstream
+=======
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 99,
+     *      notInRangeMessage = "Solde must be between {{ min }}% and {{ max }}% to be passed",
+     * )
+     * @Groups("post:read")
+>>>>>>> Stashed changes
      */
     private $solde;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("post:read")
      */
     private $active;
 
@@ -84,6 +105,7 @@ class Produit
      * minMessage = "La référance doit comporter au moins {{ limit }} caractères",
      * maxMessage = "La référance doit comporter au plus {{ limit }} caractères"
      * )
+     * @Groups("post:read")
      */
     private $referance;
 
@@ -95,6 +117,7 @@ class Produit
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $updatedAt;
 
