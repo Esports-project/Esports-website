@@ -28,6 +28,8 @@ class MobileProduitController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Produit::class);
         $produits=$repository->findAll();
         $jsonContent=$normalizer->normalize($produits, 'json',['groups'=>'post::read']);
-        return new Response(json_encode($jsonContent));
+        return $this->render('mobile_produit/allProduits.html.twig',[
+            'data'=>$jsonContent,
+        ]);
     }
 }
