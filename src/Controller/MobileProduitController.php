@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 
@@ -35,8 +36,8 @@ class MobileProduitController extends AbstractController
         $produit=$em->getRepository(Produit::class)->findAll();
         $jsonContent=$normalizer->normalize($produit,'json',['groups'=>'post:read']);
         return new Response(json_encode($jsonContent));
-
     }
+
     /**
      * @Route ("/AllProduits/{id}", name="AllProduitsId")
      */
@@ -46,6 +47,7 @@ class MobileProduitController extends AbstractController
         $jsonContent=$normalizer->normalize($produit,'json',['groups'=>'post:read']);
         return new Response(json_encode($jsonContent));
     }
+
     /**
      * @Route("/detailProd", name="detail_reclamation")
      * @Method("GET")
