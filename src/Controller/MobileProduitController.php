@@ -24,7 +24,7 @@ class MobileProduitController extends AbstractController
         ]);
     }
     /**
-     * @Route ("/allProd", name="allProduits")
+     * @Route ("/AllProduits", name="AllProduits")
      */
     public function AllProduits(NormalizerInterface $normalizer){
         $em = $this->getDoctrine()->getManager();
@@ -34,7 +34,7 @@ class MobileProduitController extends AbstractController
 
     }
     /**
-     * @Route ("/allProduits/{id}", name="allProduits")
+     * @Route ("/AllProduits/{id}", name="AllProduitsId")
      */
     public function ProduitId(Request $request,$id,NormalizerInterface $normalizer){
         $em = $this->getDoctrine()->getManager();
