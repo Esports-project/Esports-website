@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 
 /**
@@ -19,6 +21,7 @@ class User implements \Serializable, UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -30,25 +33,30 @@ class User implements \Serializable, UserInterface
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $email;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $phone;
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $date_join;
 
@@ -64,26 +72,31 @@ class User implements \Serializable, UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("post:read")
      */
     private $roles = ['ROLE_USER'];
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")
+     * @Groups("post:read")
      */
     private $commentaires;
 
     /**
      * @ORM\Column(type="string", length=255, nullable = true)
+     * @Groups("post:read")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, unique = true)
+     * @Groups("post:read")
      */
     private $username;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("post:read")
      */
     private $banned = false;
 

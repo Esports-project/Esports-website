@@ -252,7 +252,7 @@ class ReclamationController extends AbstractController
         $reclamation->setSujet($request->get('sujet'));
         $reclamation->setDescription($request->get('description'));
         $reclamation->setEmail($request->get('email'));
-       $em->persist($reclamation);
+        $em->persist($reclamation);
         $em->flush();
        
         

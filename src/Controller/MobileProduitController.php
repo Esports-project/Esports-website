@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 
+
 class MobileProduitController extends AbstractController
 {
     /**
@@ -44,8 +45,9 @@ class MobileProduitController extends AbstractController
     public function ProduitId(Request $request,$id,NormalizerInterface $normalizer){
         $em = $this->getDoctrine()->getManager();
         $produit=$em->getRepository(Produit::class)->find($id);
-        $jsonContent=$normalizer->normalize($produit,'json',['groups'=>'post:read']);
-        return new Response(json_encode($jsonContent));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($produit);
+        return new JsonResponse($formatted);
     }
 
     /**

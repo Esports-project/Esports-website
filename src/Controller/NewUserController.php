@@ -16,6 +16,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * @Route("/")
@@ -38,6 +44,28 @@ class NewUserController extends AbstractController
     }
 
     /**
+     * @Route("/findAllUsers", name="findAllUsers", methods={"GET", "POST"})
+     */
+    public function AllUsers(UserRepository $userRepository, DepartementRepository $departementRepository): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $users=$userRepository->findBy(['departement'=>NULL]);
+        $departements= $departementRepository->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($users);
+
+        return new JsonResponse($formatted);
+
+        /*return $this->render('dashboard/users.html.twig', [
+            'users' => $users,
+            'departements' => $departements,
+            'form' => $form->createView(),
+        ]);*/
+
+    }
+
+    /**
      * @Route("/dashboard/admins", name="admin_index", methods={"GET", "POST"})
      */
     public function admins(UserRepository $userRepository, DepartementRepository $departementRepository): Response
@@ -48,9 +76,33 @@ class NewUserController extends AbstractController
             'departements' => $departementRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/findAllAdmins", name="findAllAdmins", methods={"GET", "POST"})
+     */
+    public function allAdmins(UserRepository $userRepository, DepartementRepository $departementRepository): Response
+    {
+        $user = new User();
+        $users=$userRepository->findAdmins($user->getDepartement() == NUll);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizer->setIgnoredAttributes(array(
+            'user', 'dateJoin', 'departement' , 'commentaires', 'likes'
+        ));
+
+        $serializer = new Serializer([$normalizer],[$encoder]);
+        $formatted = $serializer->normalize($users);
+
+        return new Response("Reclamation added successfully".json_encode($formatted));
+
+    }
+
     /**
      * @Route("/register", name="new_user_new", methods={"GET", "POST"})
-     * 
      */
     public function new(Request $request, EntityManagerInterface $entityManager , UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -74,6 +126,44 @@ class NewUserController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/registerMobile/", name="registerMobile", methods={"GET", "POST"})
+     */
+    public function registerMobile(Request $request, EntityManagerInterface $entityManager , UserPasswordEncoderInterface $passwordEncoder, NormalizerInterface $normalizer): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        $user->setDateJoin(new \DateTime('now'));
+        $user->setDepartement(Null);
+        $user->setBanned(0);
+        $user->setNom($request->get('nom'));
+        $user->setPrenom($request->get('prenom'));
+        $user->setEmail($request->get('email'));
+        $user->setPhone($request->get('phone'));
+        $user->setPassword($request->get('password'));
+        $user->setUsername($request->get('username'));
+            $entityManager->persist($user);
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setCircularReferenceLimit(0);
+            $normalizer->setCircularReferenceHandler(function ($object) {
+                return $object->getId();
+            });
+            $normalizer->setIgnoredAttributes(array(
+                'user', 'date',
+            ));
+
+            $serializer = new Serializer([$normalizer],[$encoder]);
+            $formatted = $serializer->normalize($user);
+
+            return new Response("User added successfully".json_encode($formatted));
+
     }
 
     /**
