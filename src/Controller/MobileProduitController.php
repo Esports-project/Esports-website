@@ -9,6 +9,10 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -42,4 +46,24 @@ class MobileProduitController extends AbstractController
         $jsonContent=$normalizer->normalize($produit,'json',['groups'=>'post:read']);
         return new Response(json_encode($jsonContent));
     }
+    /**
+     * @Route("/detailProd", name="detail_reclamation")
+     * @Method("GET")
+     */
+    public function detailProduitAction(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $this->getDoctrine()->getManager()->getRepository(Produit::class)->find($id);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getDescription();
+        });
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+        return new JsonResponse($formatted);
+    }
+
 }
