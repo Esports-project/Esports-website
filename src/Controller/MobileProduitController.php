@@ -59,14 +59,17 @@ class MobileProduitController extends AbstractController
         $id = $request->get("id");
 
         $em = $this->getDoctrine()->getManager();
-        $reclamation = $this->getDoctrine()->getManager()->getRepository(Produit::class)->find($id);
+        $produit = $this->getDoctrine()->getManager()->getRepository(Produit::class)->find($id);
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
         $normalizer->setCircularReferenceHandler(function ($object) {
-            return $object->getDescription();
+            return $object->getId();
         });
+        $normalizer->setIgnoredAttributes(array(
+            'user', 'updatedAt', 'ligneCommandes' ,
+        ));
         $serializer = new Serializer([$normalizer], [$encoder]);
-        $formatted = $serializer->normalize($reclamation);
+        $formatted = $serializer->normalize($produit);
         return new JsonResponse($formatted);
     }
 
