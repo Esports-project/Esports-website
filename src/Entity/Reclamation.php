@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -148,6 +149,25 @@ class Reclamation
         return $this;
     }
 
+    // public function serializer()
+    // {
+    //     $encoder    = new JsonEncoder();
+    //     $normalizer = new ObjectNormalizer();
+
+    //     $normalizer->setIgnoredAttributes(array(
+    //         'id', 'user', 'sujet', 'email', 'description', 'date', 'status', 'category'
+    //     ));
+
+    //     // The setCircularReferenceLimit() method of this normalizer sets the number 
+    //     // of times it will serialize the same object 
+    //     // before considering it a circular reference. Its default value is 1.
+    //     $normalizer->setCircularReferenceHandler(function ($object) {
+    //         return $object->getName();
+    //     });
+
+    //     $serializer = new Serializer(array($normalizer), array($encoder));
+    //     return $serializer->serialize($this, 'json');
+    // }
 
     
 }

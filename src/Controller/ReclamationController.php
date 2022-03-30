@@ -16,6 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * @Route("/")
  */
@@ -31,16 +37,7 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
-
-    /**
-     * @Route("/showAllJson", name="reclamation_indexjson", methods={"GET"})
-     */
-    public function showAll(ReclamationRepository $reclamationRepository, NormalizerInterface $normalizer): Response
-    {
-        $jsonContent = $normalizer->normalize($reclamationRepository->findAll(), 'json', ['groups'=> 'post:read']);
-        return new Response(json_encode($jsonContent));
-    }
-
+    
     /**
      * @Route("/reclamation/new", name="reclamation_new", methods={"GET", "POST"})
      */
@@ -161,6 +158,120 @@ class ReclamationController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("rc/showAllJson", name="reclamation_indexjson", methods={"GET"})
+     */
+    public function showAll(ReclamationRepository $reclamationRepository, NormalizerInterface $normalizer): Response
+    {
+       $reclamation = $reclamationRepository->findAll();
+
+       $encoder = new JsonEncoder();
+       $normalizer = new ObjectNormalizer();
+       $normalizer->setCircularReferenceLimit(0); 
+       $normalizer->setCircularReferenceHandler(function ($object) {
+           return $object->getId();
+       });
+             $normalizer->setIgnoredAttributes(array(
+             'user', 'date', 
+        ));
+
+       $serializer = new Serializer([$normalizer],[$encoder]);
+       $formatted = $serializer->normalize($reclamation);
+
+       return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("rc/editJson/{id}", name="updateReclamationJSON", methods={"GET"})
+     */
+    public function editJson(Request $request,ReclamationRepository $reclamationRepository, NormalizerInterface $normalizer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Reclamation::class)->find($id);
+        if($request->get('status') != null)
+        $reclamation->setStatus($request->get('status'));
+        if($request->get('description') != null)
+        $reclamation->setDescription($request->get('description'));
+        $em->flush();
+       
+        
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0); 
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+              $normalizer->setIgnoredAttributes(array(
+              'user', 'date', 
+         ));
+ 
+        $serializer = new Serializer([$normalizer],[$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+        
+        return new Response("Reclamation updated successfully".json_encode($formatted));
+    }
+
+
+      /**
+     * @Route("rc/removeJson/{id}", name="removeReclamationJSON", methods={"GET"})
+     */
+    public function removeJson(Request $request,ReclamationRepository $reclamationRepository, NormalizerInterface $normalizer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Reclamation::class)->find($id);
+        $em->remove($reclamation);
+        $em->flush();
+        $jsonContent = $normalizer->normalize($reclamation, 'json',['groups'=>'post:read']);
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0); 
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+              $normalizer->setIgnoredAttributes(array(
+              'user', 'date', 
+         ));
+ 
+        $serializer = new Serializer([$normalizer],[$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+
+        return new Response("Reclamation deleted successfully".json_encode($formatted));
+    }
+
+     /**
+     * @Route("rc/addJson/", name="addReclamationJSON", methods={"GET"})
+     */
+    public function addJson(Request $request,ReclamationRepository $reclamationRepository, NormalizerInterface $normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = new Reclamation();
+        $reclamation->setDate(new \Datetime('now'));
+        $reclamation->setStatus(0);
+        $reclamation->setSujet($request->get('sujet'));
+        $reclamation->setDescription($request->get('description'));
+        $reclamation->setEmail($request->get('email'));
+       $em->persist($reclamation);
+        $em->flush();
+       
+        
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0); 
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+              $normalizer->setIgnoredAttributes(array(
+              'user', 'date', 
+         ));
+ 
+        $serializer = new Serializer([$normalizer],[$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+        
+        return new Response("Reclamation added successfully".json_encode($formatted));
+    }
     
+  
   
 }   
