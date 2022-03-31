@@ -15,8 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use App\Services\Cart\CartService;
 
 
@@ -33,7 +36,14 @@ class CartController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/panierJson", name="panierJson")
+     */
+    public function panierJson(CartService $cartService, NormalizerInterface $normalizer): Response
+    {
+        $jsonContent=$normalizer->normalize($cartService->getFullCart(),'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
 
     /**
      * @Route("/panier/add/{id}", name="cart_add")
@@ -43,6 +53,16 @@ class CartController extends AbstractController
         $cartService->add($id);
         return $this->redirectToRoute('cart_index');
     }
+
+    /**
+     * @Route("/addPanierJson/{id}", name="addPanierJson")
+     */
+    public function addPanierJson($id, CartService $cartService)
+    {
+        $cartService->add($id);
+        return new JsonResponse("Ajouté.");
+    }
+
     /**
      * @Route("/panier/reduce/{id}", name="cart_reduce")
      */
@@ -50,6 +70,15 @@ class CartController extends AbstractController
     {
         $cartService->reduce($id);
         return $this->redirectToRoute('cart_index');
+    }
+
+    /**
+     * @Route("/reducePanierJson/{id}", name="reducePanierJson")
+     */
+    public function reducePanierJson($id, CartService $cartService)
+    {
+        $cartService->reduce($id);
+        return new JsonResponse("na99ast.");
     }
 
     /**
@@ -70,8 +99,17 @@ class CartController extends AbstractController
     public function remove($id, CartService $cartService)
     {
         $cartService->remove($id);
-
         return $this->redirectToRoute('cart_index');
+
+    }
+
+    /**
+     * @Route("/removeFromPanierJson/{id}", name="removeFromPanierJson")
+     */
+    public function removeFromPanierJson($id, CartService $cartService)
+    {
+        $cartService->remove($id);
+        return new JsonResponse("deleted.");
 
     }
 
