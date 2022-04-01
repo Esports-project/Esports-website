@@ -88,7 +88,7 @@ class MobileProduitController extends AbstractController
         $Prod = new Produit();
         $nom = $request->query->get("nom");
         $price = $request->query->get("price");
-        $quantity = $request->query->get("quantity");
+       // $quantity = $request->query->get("quantity");
         $referance = $request->query->get("referance");
         $date = new \DateTime('now');
 
@@ -97,7 +97,7 @@ class MobileProduitController extends AbstractController
         //not default
         $Prod->setNom($nom);
         $Prod->setPrice($price);
-        $Prod->setQuantity($quantity);
+        $Prod->setQuantity(1);
         $Prod->setReferance($referance);
         $Prod->setUpdatedAt($date);
 
@@ -145,7 +145,7 @@ class MobileProduitController extends AbstractController
 
     /******************Modifier Produit*****************************************/
     /**
-     * @Route("/updateProduit", name="updateProduit")
+     * @Route("/updateProduitJSON", name="updateProduit")
      * @Method("PUT")
      */
     public function modifierProduitActionx(Request $request) {
@@ -158,6 +158,7 @@ class MobileProduitController extends AbstractController
         $Prod->setNom($request->get("nom"));
         $Prod->setDescription($request->get("description"));
         $Prod->setQuantity($request->get("quantity"));
+        $Prod->setPrice($request->get("price"));
 
         $em->persist($Prod);
         $em->flush();
@@ -175,7 +176,7 @@ class MobileProduitController extends AbstractController
      */
 
     //Detail Reclamation
-    public function detailReclamationAction(Request $request)
+    public function detailProduit(Request $request)
     {
         $id = $request->get("id");
 
