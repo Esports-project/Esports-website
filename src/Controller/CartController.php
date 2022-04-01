@@ -55,10 +55,12 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/addPanierJson/{id}", name="addPanierJson")
+     * @Route("/addPanierJson", name="addPanierJson")
+     * @Method("GET")
      */
-    public function addPanierJson($id, CartService $cartService)
+    public function addPanierJson(CartService $cartService, Request $request)
     {
+        $id = $request->get("id");
         $cartService->add($id);
         return new JsonResponse("Ajouté.");
     }
