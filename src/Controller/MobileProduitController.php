@@ -73,4 +73,125 @@ class MobileProduitController extends AbstractController
         return new JsonResponse($formatted);
     }
 
+    ////////////////////////////////////addd json
+    ///
+
+    /******************Ajouter Reclamation*****************************************/
+    /**
+     * @Route("/addProduitJson", name="addProduitJson")
+     * @Method("POST")
+     */
+
+    public function ajouterReclamationAction(Request $request)
+    {
+        $reclamation = new Produit();
+        $Prod = new Produit();
+        $nom = $request->query->get("nom");
+        $price = $request->query->get("price");
+        $quantity = $request->query->get("quantity");
+        $referance = $request->query->get("referance");
+        $date = new \DateTime('now');
+
+        $em = $this->getDoctrine()->getManager();
+
+        //not default
+        $Prod->setNom($nom);
+        $Prod->setPrice($price);
+        $Prod->setQuantity($quantity);
+        $Prod->setReferance($referance);
+        $Prod->setUpdatedAt($date);
+
+        //default
+
+        $Prod->setActive(true);
+        $Prod->setDescription("description de produit " );
+        $Prod->setImage("test ");
+        $Prod->setSolde(null);
+
+        $em->persist($Prod);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Prod);
+        return new JsonResponse($formatted);
+
+    }
+
+    /******************Supprimer Produit*****************************************/
+
+    /**
+     * @Route("/deleteProduitJson", name="deleteProduitJson")
+     * @Method("DELETE")
+     */
+
+    public function deletePorduitAction(Request $request) {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $Prod = $em->getRepository(Produit::class)->find($id);
+        if($Prod!=null ) {
+            $em->remove($Prod);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Produit a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("id produit invalide.");
+
+    }
+
+
+
+    /******************Modifier Produit*****************************************/
+    /**
+     * @Route("/updateProduit", name="updateProduit")
+     * @Method("PUT")
+     */
+    public function modifierProduitActionx(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $Prod = $this->getDoctrine()->getManager()
+            ->getRepository(Produit::class)
+            ->find($request->get("id"));
+
+
+        $Prod->setNom($request->get("nom"));
+        $Prod->setDescription($request->get("description"));
+        $Prod->setQuantity($request->get("quantity"));
+
+        $em->persist($Prod);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Prod);
+        return new JsonResponse("Reclamation a ete modifiee avec success.");
+
+    }
+
+    /******************Detail Reclamation*****************************************/
+
+    /**
+     * @Route("/detailProduitJson", name="detailProduitJson")
+     * @Method("GET")
+     */
+
+    //Detail Reclamation
+    public function detailReclamationAction(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $this->getDoctrine()->getManager()->getRepository(Produit::class)->find($id);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getDescription();
+        });
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+        return new JsonResponse($formatted);
+    }
+
+
+
+
 }
