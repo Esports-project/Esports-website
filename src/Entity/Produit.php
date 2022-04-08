@@ -45,7 +45,7 @@ class Produit
      * @ORM\Column(type="float")
      * @Assert\GreaterThan(
      * value = 0,
-     * message = "Le prix d’un produit ne doit pas être inférieur ou égal à 0 "
+     * message = "Le prix d’un produit ne doit pas être inférieur ou égal à 0"
      * )
      * @Assert\NotBlank
      * @Groups("post:read")
